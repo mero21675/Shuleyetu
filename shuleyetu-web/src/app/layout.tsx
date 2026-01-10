@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { NavUser } from "@/components/NavUser";
@@ -11,6 +11,37 @@ export const metadata: Metadata = {
   title: "Shuleyetu",
   description:
     "Tanzanian school supply marketplace for textbooks, uniforms, and stationery.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Shuleyetu",
+  },
+  formatDetection: {
+    telephone: true,
+  },
+  openGraph: {
+    title: "Shuleyetu",
+    description: "Tanzanian school supply marketplace for textbooks, uniforms, and stationery.",
+    type: "website",
+    locale: "en_TZ",
+    siteName: "Shuleyetu",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Shuleyetu",
+    description: "Tanzanian school supply marketplace for textbooks, uniforms, and stationery.",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#020617" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
