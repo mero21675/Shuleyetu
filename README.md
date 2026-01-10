@@ -8,11 +8,13 @@ This repository currently contains a web app (`shuleyetu-web`) plus a Supabase S
 
 ## Tech stack
 
-- **Frontend**: Next.js 14 (App Router) + React + TypeScript
+- **Frontend**: Next.js 14.2.35 (App Router) + React 18 + TypeScript
 - **Styling**: Tailwind CSS, dark theme by default
-- **Backend / DB**: Supabase (PostgreSQL, SQL migrations)
-- **Auth & APIs**: Supabase client (`@supabase/supabase-js`)
-- **Payments**: ClickPesa (sandbox integration implemented; production hardening and webhooks still to come)
+- **Backend / DB**: Supabase (PostgreSQL, SQL migrations, Row Level Security)
+- **Auth & APIs**: Supabase client (`@supabase/supabase-js`), JWT-based authentication
+- **Payments**: ClickPesa (sandbox integration with USSD push, webhook signature verification)
+- **Testing**: Vitest for unit tests, Jest for integration tests
+- **Security**: HTTP security headers, CSRF protection, secure token-based public order access
 
 ---
 
@@ -20,10 +22,13 @@ This repository currently contains a web app (`shuleyetu-web`) plus a Supabase S
 
 - `shuleyetu-web/`
   - Next.js app (App Router, `src/app`)
-  - Supabase client configuration (`src/lib/supabaseClient.ts`)
-  - Pages for vendors, inventory, and orders
+  - **Pages**: vendors, orders, vendor dashboard, admin panel, order tracking
+  - **API routes**: admin management, ClickPesa payment integration, public order access
+  - **Shared utilities**: `src/lib/` (auth helpers, API utils, logging, validation)
+  - **Tests**: unit tests with Vitest for core business logic
 - `supabase/migrations/`
-  - `20251204_init_shuleyetu_marketplace.sql`: database schema for vendors, inventory, orders, and order_items
+  - Database schema, RLS policies, auth tables, and stored procedures
+  - 7 migration files covering vendors, inventory, orders, auth, and admin features
 
 ---
 
@@ -59,9 +64,14 @@ This repository currently contains a web app (`shuleyetu-web`) plus a Supabase S
   - Stores total amount in TZS on the order.
 
 - **Orders list**: `/orders`
-  - Lists recent orders from the `orders` table.
-  - Joins to `vendors` to show vendor name.
-  - Shows timestamp, customer details, total amount, status, and payment status.
+  - Landing page with options to track orders or access vendor dashboard.
+  - Clear guidance for parents vs. vendors.
+
+- **Track order**: `/orders/track`
+  - Public order tracking by order ID and access token (no login required).
+  - Supports pasting order links or entering credentials manually.
+  - Shows order details, line items, payment status, and vendor information.
+  - Input validation with real-time feedback and disabled buttons until valid.
 
 - **Order detail**: `/orders/[orderId]`
   - Shows a single order, joined with vendor data and all of its `order_items`.
@@ -69,13 +79,16 @@ This repository currently contains a web app (`shuleyetu-web`) plus a Supabase S
 
 - **ClickPesa payment**: `/orders/pay/[orderId]`
   - Initiates a mobile money USSD payment via a ClickPesa API route.
+  - Requires order ID and public access token for security.
   - Lets you refresh payment status from ClickPesa and see it reflected on the order.
+  - Webhook integration with signature verification for automatic status updates.
 
 ### Vendor dashboard
 
 - **Vendor auth**: `/auth/login`
-  - Basic email/password login and sign-up backed by Supabase Auth.
+  - Email/password login and sign-up backed by Supabase Auth.
   - Maps logged-in users to vendors via a `vendor_users` linking table.
+  - Note: Admins must link users to vendors using the admin panel.
 - **Dashboard overview**: `/dashboard`
   - Shows counts of a vendor's inventory items and orders.
   - Links into detailed inventory and orders management pages.
@@ -86,6 +99,16 @@ This repository currently contains a web app (`shuleyetu-web`) plus a Supabase S
   - Shows orders for the logged-in vendor with filters (status, date range).
   - Allows updating the `status` of each order from a dropdown.
 
+### Admin panel
+
+- **Admin dashboard**: `/admin`
+  - Protected by role-based access control (requires `admin` role in `user_roles` table).
+  - **Vendor user management**: Link/unlink users to vendors, view all vendor-user associations.
+  - **Admin management**: Grant/revoke admin privileges, view all admins.
+  - **Vendor list**: View all registered vendors.
+  - Uses JWT bearer token authentication for API calls.
+  - Structured logging and consistent error handling across all admin APIs.
+
 ---
 
 ## Getting around the app
@@ -93,8 +116,10 @@ This repository currently contains a web app (`shuleyetu-web`) plus a Supabase S
 1. **Home** – visit `/` to read what Shuleyetu is and choose where to go next.
 2. **Browse vendors** – go to `/vendors` to find a stationery vendor for your school or region, then open their detail page.
 3. **Create an order** – use `/orders/new` to pick a vendor, choose textbooks/uniforms/stationery, and fill in student & school details.
-4. **Pay via ClickPesa** – from an order, open `/orders/pay/[orderId]` to start a mobile money payment and refresh its status.
-5. **Vendor dashboard** – log in at `/auth/login` and use `/dashboard`, `/dashboard/inventory`, and `/dashboard/orders` to manage items and track orders for a vendor.
+4. **Track your order** – use `/orders/track` to check order status, payment status, and details without logging in (requires order link or ID + token).
+5. **Pay via ClickPesa** – from an order, open `/orders/pay/[orderId]` to start a mobile money payment and refresh its status.
+6. **Vendor dashboard** – log in at `/auth/login` and use `/dashboard`, `/dashboard/inventory`, and `/dashboard/orders` to manage items and track orders for a vendor.
+7. **Admin panel** – admins can access `/admin` to manage vendor-user links and admin roles.
 
 ---
 
@@ -121,7 +146,18 @@ Defined in `supabase/migrations/20251204_init_shuleyetu_marketplace.sql`:
   - References `vendors(id)`.
   - Captures customer and school context plus `total_amount_tzs`.
   - Tracks `status` and `payment_status` for the order lifecycle.
-  - Includes fields reserved for ClickPesa integration (provider name, provider reference, transaction id, raw payload).
+  - Includes `public_access_token` (UUID) for secure public order tracking without authentication.
+  - Includes fields for ClickPesa integration (provider name, provider reference, transaction id, raw payload).
+
+- **`vendor_users`**
+  - Links Supabase Auth users to vendors.
+  - Allows multiple users per vendor and multiple vendors per user.
+  - Used by vendor dashboard to determine which vendor's data to show.
+
+- **`user_roles`**
+  - Role-based access control table.
+  - Currently supports `admin` role for admin panel access.
+  - Protected by RLS policies requiring admin role to modify.
 
 - **`order_items`**
   - Line items per order.
@@ -157,7 +193,26 @@ Defined in `supabase/migrations/20251204_init_shuleyetu_marketplace.sql`:
 
    Do **not** commit `.env.local` to version control.
 
-4. **Run the dev server**
+4. **Apply Supabase migrations**
+
+   In the Supabase Dashboard SQL Editor, run each migration file in order:
+   
+   1. `20251204_init_shuleyetu_marketplace.sql` - Core schema
+   2. `20251205_auth_rls_open_ordering.sql` - Auth tables and RLS
+   3. `20251221_create_vendor_users_and_user_roles_tables.sql` - Vendor users and roles
+   4. `20251221_add_rls_policies.sql` - Additional RLS policies
+   5. `20251230_add_orders_public_access_token.sql` - Public order tracking
+   6. `20251230_rpc_get_user_id_by_email.sql` - Admin helper function
+   7. `20251230_rpc_get_user_emails_by_ids.sql` - Admin helper function
+
+5. **Run tests**
+
+   ```bash
+   cd shuleyetu-web
+   npm run test
+   ```
+
+6. **Run the dev server**
 
    ```bash
    cd shuleyetu-web
@@ -166,11 +221,11 @@ Defined in `supabase/migrations/20251204_init_shuleyetu_marketplace.sql`:
 
    Then open <http://localhost:3000> in your browser.
 
-5. **Apply the Supabase migration**
+7. **Build for production**
 
-   - Open `supabase/migrations/20251204_init_shuleyetu_marketplace.sql`.
-   - In the Supabase dashboard, go to **SQL → New query** and paste the contents.
-   - Run the query to create the enums and tables.
+   ```bash
+   npm run build
+   ```
 
 ---
 
@@ -186,14 +241,16 @@ This repository is the foundation for a much richer Tanzanian school supply ecos
   - Link inventory items to specific schools, classes, and terms.
   - Parents select a school and class to see an auto-generated shopping list.
 
-- **ClickPesa integration**
-  - Basic payment request and status refresh flows are implemented via Next.js API routes.
-  - Store provider references and transaction IDs on the `orders` table.
-  - Future work: add webhooks and stronger error handling to keep `payment_status` in sync.
+- **Enhanced ClickPesa integration** ✅ Partially implemented
+  - ✅ Payment request and status refresh via Next.js API routes
+  - ✅ Webhook endpoint with HMAC SHA256 signature verification
+  - ✅ Store provider references and transaction IDs on the `orders` table
+  - Future: Better error handling and retry logic
 
-- **Order tracking and notifications**
-  - Allow vendors to update `order_status` (processing, shipped, completed).
-  - SMS / WhatsApp notifications to parents for payment confirmations and pickup instructions.
+- **Order tracking and notifications** ✅ Partially implemented
+  - ✅ Public order tracking page with secure token-based access
+  - ✅ Vendors can update `order_status` via dashboard
+  - Future: SMS / WhatsApp notifications to parents for payment confirmations and pickup instructions
 
 - **Reporting & analytics**
   - Dashboards for vendors and schools: popular items, total sales, peak buying periods.
@@ -209,17 +266,50 @@ This repository is the foundation for a much richer Tanzanian school supply ecos
 
 ---
 
-## Security notes
+## Security
 
-- Treat all API keys (Supabase service keys, ClickPesa keys) as secrets.
-- Only the **anon public** Supabase key should be exposed to the browser, and only with Row Level Security (RLS) and policies configured.
-- Store ClickPesa credentials in environment variables or Supabase secrets for server-side / Edge Function usage.
+### Implemented security measures
+
+- **HTTP Security Headers**: CSP, X-Content-Type-Options, Referrer-Policy, X-Frame-Options, Permissions-Policy, HSTS (production)
+- **Row Level Security (RLS)**: All database tables protected with granular policies
+- **Role-based access control**: Admin panel protected by `user_roles` table
+- **Public order access**: Secure token-based access using UUID `public_access_token`
+- **ClickPesa webhook verification**: HMAC SHA256 signature validation in production
+- **JWT authentication**: Bearer token auth for admin APIs
+- **Input validation**: Comprehensive validation on all API routes and forms
+- **Structured logging**: Security events and errors logged with context
+
+### Best practices
+
+- **Never commit secrets**: `.env.local` is gitignored. Use `.env.local.example` as a template.
+- **Supabase keys**: Only the anon public key is exposed to the browser. Service role key is server-side only.
+- **ClickPesa credentials**: Store in environment variables, never hardcode.
+- **Rotate keys**: If keys are accidentally committed, rotate them immediately in Supabase/ClickPesa dashboards.
+
+---
+
+## Testing
+
+The project includes unit tests for core business logic:
+
+- **Order tracking utilities** (`src/lib/orderTracking.test.ts`)
+- **HTTP authentication helpers** (`src/lib/httpAuth.test.ts`)
+- **Public order validation** (`src/lib/publicOrderValidation.test.ts`)
+
+Run tests with:
+```bash
+cd shuleyetu-web
+npm run test
+```
 
 ---
 
 ## Contribution ideas
 
-- Improve the UI/UX for parents on mobile devices.
-- Extend RLS policies and access control for additional roles (vendors, admins, school reps).
-- Improve ClickPesa integration with webhooks, better error handling, and reporting.
-- Add automated tests for core flows (creating vendors, inventory, and orders).
+- Add end-to-end tests with Playwright for critical user flows
+- Improve the UI/UX for parents on mobile devices
+- Add SMS/WhatsApp notifications for order updates
+- Implement vendor analytics dashboard (sales reports, popular items)
+- Add multi-language support (Swahili + English)
+- Improve ClickPesa error handling and retry logic
+- Add inventory low-stock alerts for vendors

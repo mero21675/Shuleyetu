@@ -4,74 +4,247 @@ Thank you for your interest in contributing to Shuleyetu! This document provides
 
 ## Development Setup
 
-1. **Prerequisites**
-   - Node.js 18+ (LTS recommended)
-   - Git
-   - A Supabase account (for database)
+### Prerequisites
+- **Node.js 18+** (LTS recommended)
+- **Git**
+- **A Supabase account** (for database)
+- **ClickPesa sandbox account** (optional, for payment testing)
 
-2. **Clone and Install**
+### Clone and Install
+
+```bash
+git clone https://github.com/kadioko/Shuleyetu.git
+cd Shuleyetu/shuleyetu-web
+npm install
+```
+
+### Environment Configuration
+
+1. Copy the example environment file:
    ```bash
-   git clone https://github.com/kadioko/Shuleyetu.git
-   cd Shuleyetu/shuleyetu-web
-   npm install
+   cp .env.local.example .env.local
    ```
 
-3. **Environment Configuration**
-   - Copy `shuleyetu-web/.env.local.example` to `shuleyetu-web/.env.local`
-   - Fill in your Supabase and ClickPesa credentials
-   - Never commit `.env.local` files
+2. Fill in your credentials in `.env.local`:
+   ```bash
+   # Supabase (required)
+   NEXT_PUBLIC_SUPABASE_URL="https://<your-project-ref>.supabase.co"
+   NEXT_PUBLIC_SUPABASE_ANON_KEY="<your-anon-public-key>"
+   SUPABASE_SERVICE_ROLE_KEY="<your-service-role-key>"
+   
+   # ClickPesa (optional for payment testing)
+   CLICKPESA_CLIENT_ID="<your-client-id>"
+   CLICKPESA_API_KEY="<your-api-key>"
+   CLICKPESA_ENV="sandbox"
+   CLICKPESA_BASE_URL="https://api.clickpesa.com"
+   CLICKPESA_WEBHOOK_SECRET="<your-webhook-secret>"
+   ```
 
-4. **Database Setup**
-   - Apply migrations in `supabase/migrations/` via Supabase Dashboard SQL Editor
-   - Run migrations in chronological order (by filename)
+3. **Never commit `.env.local`** - it's already in `.gitignore`
+
+### Database Setup
+
+Apply all migrations in order via Supabase Dashboard SQL Editor:
+
+1. `20251204_init_shuleyetu_marketplace.sql` - Core schema (vendors, inventory, orders)
+2. `20251205_auth_rls_open_ordering.sql` - Auth tables and RLS policies
+3. `20251221_create_vendor_users_and_user_roles_tables.sql` - Vendor users and roles
+4. `20251221_add_rls_policies.sql` - Additional RLS policies
+5. `20251230_add_orders_public_access_token.sql` - Public order tracking token
+6. `20251230_rpc_get_user_id_by_email.sql` - Admin helper function
+7. `20251230_rpc_get_user_emails_by_ids.sql` - Admin helper function
+
+**To verify migrations were applied:**
+```sql
+-- Check for public_access_token column
+SELECT column_name FROM information_schema.columns 
+WHERE table_name = 'orders' AND column_name = 'public_access_token';
+
+-- Check for RPC functions
+SELECT routine_name FROM information_schema.routines 
+WHERE routine_schema = 'public' 
+AND routine_name IN ('get_user_id_by_email', 'get_user_emails_by_ids');
+```
 
 ## Development Workflow
 
-1. **Run the dev server**
-   ```bash
-   cd shuleyetu-web
-   npm run dev
-   ```
+### Run the dev server
+```bash
+cd shuleyetu-web
+npm run dev
+```
+Then open http://localhost:3000
 
-2. **Run tests**
-   ```bash
-   npm run test
-   ```
+### Run tests
+```bash
+npm run test          # Run all tests
+npm run test:watch    # Run tests in watch mode
+```
 
-3. **Lint your code**
-   ```bash
-   npm run lint
-   ```
+### Lint your code
+```bash
+npm run lint
+```
 
-4. **Build for production**
-   ```bash
-   npm run build
-   ```
+### Build for production
+```bash
+npm run build
+```
+
+### Type checking
+```bash
+npx tsc --noEmit
+```
+
+## Project Structure
+
+```
+shuleyetu-web/
+├── src/
+│   ├── app/                    # Next.js App Router pages
+│   │   ├── admin/              # Admin panel
+│   │   ├── api/                # API routes
+│   │   │   ├── admin/          # Admin APIs (role-protected)
+│   │   │   ├── clickpesa/      # Payment integration
+│   │   │   └── orders/         # Public order APIs
+│   │   ├── auth/               # Authentication pages
+│   │   ├── dashboard/          # Vendor dashboard
+│   │   ├── orders/             # Order pages (track, pay, etc.)
+│   │   └── vendors/            # Vendor browsing
+│   ├── components/             # Reusable React components
+│   └── lib/                    # Shared utilities
+│       ├── adminAuth.ts        # Admin authorization helpers
+│       ├── apiUtils.ts         # API response utilities
+│       ├── httpAuth.ts         # HTTP auth helpers
+│       ├── logger.ts           # Structured logging
+│       ├── orderTracking.ts    # Order tracking utilities
+│       ├── publicOrderValidation.ts  # Order validation
+│       ├── supabaseClient.ts   # Browser Supabase client
+│       └── supabaseServer.ts   # Server Supabase client
+├── supabase/migrations/        # Database migrations
+└── tests/                      # Test files (*.test.ts)
+```
 
 ## Code Style
 
-- Follow the existing TypeScript and React patterns
-- Use Tailwind CSS for styling
-- Write meaningful commit messages
-- Add tests for new features
-- Keep functions small and focused
+### TypeScript
+- Use explicit types, avoid `any`
+- Prefer interfaces for object shapes
+- Use type guards for runtime validation
+
+### React
+- Use functional components with hooks
+- Keep components focused and small
+- Extract reusable logic into custom hooks
+
+### Styling
+- Use Tailwind CSS utility classes
+- Follow the existing dark theme color scheme
+- Use semantic HTML elements
+
+### API Routes
+- Use shared utilities from `src/lib/apiUtils.ts` (`jsonOk`, `jsonError`, `readJsonBody`)
+- Add structured logging with `src/lib/logger.ts`
+- Validate inputs thoroughly
+- Return consistent error responses
+
+### Testing
+- Write unit tests for business logic in `src/lib/`
+- Test edge cases and error handling
+- Use descriptive test names
+- Keep tests focused and isolated
+
+## Commit Guidelines
+
+- Use clear, descriptive commit messages
+- Start with a verb in present tense (e.g., "Add", "Fix", "Update")
+- Reference issue numbers when applicable
+- Keep commits focused on a single change
+
+**Examples:**
+```
+Add public order tracking page
+Fix webhook signature verification
+Update admin panel with vendor user management
+```
 
 ## Pull Request Process
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Run tests and linting
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to your fork (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
+1. **Fork** the repository
+2. **Create a feature branch** from `main`:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. **Make your changes** following the code style guidelines
+4. **Run tests and linting**:
+   ```bash
+   npm run test
+   npm run lint
+   npm run build
+   ```
+5. **Commit your changes** with clear messages
+6. **Push to your fork**:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+7. **Open a Pull Request** with:
+   - Clear description of changes
+   - Screenshots (if UI changes)
+   - Test results
+   - Any breaking changes noted
 
 ## Security
 
-- Never commit API keys, secrets, or credentials
-- Report security vulnerabilities privately to the maintainers
-- Use environment variables for all sensitive configuration
+### Critical Rules
+- **Never commit secrets** (API keys, tokens, passwords)
+- **Always use environment variables** for sensitive config
+- **Report security vulnerabilities privately** to maintainers
+- **Rotate keys immediately** if accidentally committed
 
-## Questions?
+### Security Checklist
+- [ ] No hardcoded credentials in code
+- [ ] `.env.local` is gitignored
+- [ ] API routes validate inputs
+- [ ] Admin routes check authorization
+- [ ] Public endpoints use token-based access
+- [ ] Webhook signatures are verified
 
-Feel free to open an issue for questions or discussions about contributing.
+## Testing Guidelines
+
+### What to Test
+- Business logic in `src/lib/`
+- Input validation functions
+- Utility functions with edge cases
+- API response formatting
+
+### What Not to Test
+- Third-party libraries
+- Next.js framework code
+- Supabase client methods
+
+### Writing Tests
+```typescript
+import { describe, it, expect } from 'vitest';
+
+describe('myFunction', () => {
+  it('should handle valid input', () => {
+    const result = myFunction('valid');
+    expect(result).toBe('expected');
+  });
+
+  it('should handle edge cases', () => {
+    expect(myFunction('')).toBe(null);
+    expect(myFunction(null)).toBe(null);
+  });
+});
+```
+
+## Getting Help
+
+- **Issues**: Open a GitHub issue for bugs or feature requests
+- **Discussions**: Use GitHub Discussions for questions
+- **Documentation**: Check the main README.md for project overview
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the same license as the project.
