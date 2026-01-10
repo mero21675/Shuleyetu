@@ -1,0 +1,52 @@
+# Environment variables
+shuleyetu-web/.env.local
+shuleyetu-web/.env*.local
+*.env.local
+*.env*.local
+.env
+
+# Dependencies
+shuleyetu-web/node_modules/
+node_modules/
+
+# Next.js build outputs
+shuleyetu-web/.next/
+shuleyetu-web/out/
+shuleyetu-web/.turbo/
+shuleyetu-web/.vercel/
+.next/
+out/
+
+# Testing
+shuleyetu-web/coverage/
+coverage/
+
+# Supabase
+supabase/.temp/
+supabase/.branches/
+.supabase/
+
+# Temporary files
+temps/
+*.tmp
+*.temp
+
+# Logs
+**/*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+.history/
