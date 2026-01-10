@@ -9,7 +9,7 @@ This repository currently contains a web app (`shuleyetu-web`) plus a Supabase S
 ## Tech stack
 
 - **Frontend**: Next.js 14.2.35 (App Router) + React 18 + TypeScript
-- **Styling**: Tailwind CSS, dark theme by default
+- **Styling**: Tailwind CSS with dark/light theme toggle
 - **Backend / DB**: Supabase (PostgreSQL, SQL migrations, Row Level Security)
 - **Auth & APIs**: Supabase client (`@supabase/supabase-js`), JWT-based authentication
 - **Payments**: ClickPesa (sandbox integration with USSD push, webhook signature verification)
@@ -37,8 +37,11 @@ This repository currently contains a web app (`shuleyetu-web`) plus a Supabase S
 ### Home & marketing
 
 - **Landing page**: `/`
-  - Explains what Shuleyetu is and who it is for (parents, vendors, schools).
-  - Links to browse vendors, create a test order, and open the vendor dashboard.
+  - Modern hero section with animated badge and gradient backgrounds.
+  - Stats bar showing vendors, products, regions, and support availability.
+  - Feature cards for parents, vendors, and schools with icons.
+  - How-it-works section with 3-step guide.
+  - Call-to-action section for getting started.
 - **Why Shuleyetu**: `/why-shuleyetu`
   - Simple marketing page describing the problem and how Shuleyetu helps.
   - Includes screenshot placeholders for the vendor dashboard, parent order flow, and ClickPesa payment.
@@ -90,8 +93,10 @@ This repository currently contains a web app (`shuleyetu-web`) plus a Supabase S
   - Maps logged-in users to vendors via a `vendor_users` linking table.
   - Note: Admins must link users to vendors using the admin panel.
 - **Dashboard overview**: `/dashboard`
-  - Shows counts of a vendor's inventory items and orders.
-  - Links into detailed inventory and orders management pages.
+  - **Analytics cards**: Total sales (TZS), paid orders, pending orders, completed orders.
+  - **Quick stats**: Inventory count, total orders with navigation links.
+  - **Recent orders table**: Last 5 orders with customer, amount, status, payment, date.
+  - **Quick links**: View public page, track orders, manage inventory, view all orders.
 - **Inventory management**: `/dashboard/inventory`
   - Lists items for the logged-in vendor with category, price in TZS, and stock.
   - Supports creating new items (`/dashboard/inventory/new`) and editing existing ones (`/dashboard/inventory/[itemId]/edit`).
@@ -227,6 +232,16 @@ Defined in `supabase/migrations/20251204_init_shuleyetu_marketplace.sql`:
    npm run build
    ```
 
+### UI/UX improvements
+
+- **Mobile navigation**: Hamburger menu with slide-out navigation for mobile devices.
+- **Dark/light theme**: Toggle switch with localStorage persistence and smooth transitions.
+- **Skeleton loaders**: Reusable loading components for better perceived performance.
+- **PWA support**: Web app manifest, app icons, and meta tags for installable experience on mobile.
+- **Multi-language**: English and Swahili translations with language switcher (🇬🇧/🇹🇿).
+- **Image uploads**: Component for uploading product images and vendor logos to Supabase Storage.
+- **Responsive footer**: Site-wide footer with copyright and quick links.
+
 ---
 
 ## How Shuleyetu can grow (full potential)
@@ -253,13 +268,18 @@ This repository is the foundation for a much richer Tanzanian school supply ecos
   - ✅ Database migrations applied with `public_access_token` column
   - Future: SMS / WhatsApp notifications to parents
 
-- **Reporting & analytics**
-  - Dashboards for vendors and schools: popular items, total sales, peak buying periods.
-  - Insights into textbook and uniform demand per region or school.
+- **Reporting & analytics** ✅ Partially Implemented
+  - ✅ Vendor dashboard with total sales, order counts, and status breakdown
+  - ✅ Recent orders table with customer, amount, status, and date
+  - Future: Detailed charts, popular items, peak buying periods
+  - Future: Insights into textbook and uniform demand per region or school
 
-- **Mobile-first and offline-friendly experience**
-  - Optimize UI for low-bandwidth and mobile devices.
-  - Consider a future React Native or Flutter app backed by the same Supabase API.
+- **Mobile-first and offline-friendly experience** ✅ Partially Implemented
+  - ✅ Mobile navigation with hamburger menu
+  - ✅ PWA support with manifest and app icons
+  - ✅ Responsive design throughout the app
+  - Future: Service worker for offline caching
+  - Future: React Native or Flutter app backed by the same Supabase API
 
 - **Integrations with schools**
   - Allow schools to publish official booklists and approved vendors.
@@ -308,9 +328,12 @@ npm run test
 ## Contribution ideas
 
 - Add end-to-end tests with Playwright for critical user flows
-- Improve the UI/UX for parents on mobile devices
-- Add SMS/WhatsApp notifications for order updates
-- Implement vendor analytics dashboard (sales reports, popular items)
-- Add multi-language support (Swahili + English)
+- ~~Improve the UI/UX for parents on mobile devices~~ ✅ Done
+- Add SMS/WhatsApp notifications for order updates (Africa's Talking API)
+- ~~Implement vendor analytics dashboard (sales reports, popular items)~~ ✅ Done
+- ~~Add multi-language support (Swahili + English)~~ ✅ Done
 - Improve ClickPesa error handling and retry logic
 - Add inventory low-stock alerts for vendors
+- School-specific catalogs with booklists per class/term
+- Vendor profile image uploads
+- Product image galleries
