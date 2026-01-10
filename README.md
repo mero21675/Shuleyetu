@@ -241,16 +241,17 @@ This repository is the foundation for a much richer Tanzanian school supply ecos
   - Link inventory items to specific schools, classes, and terms.
   - Parents select a school and class to see an auto-generated shopping list.
 
-- **Enhanced ClickPesa integration** ✅ Partially implemented
+- **Enhanced ClickPesa integration** ✅ Implemented
   - ✅ Payment request and status refresh via Next.js API routes
   - ✅ Webhook endpoint with HMAC SHA256 signature verification
   - ✅ Store provider references and transaction IDs on the `orders` table
-  - Future: Better error handling and retry logic
+  - ✅ Production-ready with environment-based configuration
 
-- **Order tracking and notifications** ✅ Partially implemented
+- **Order tracking and notifications** ✅ Implemented
   - ✅ Public order tracking page with secure token-based access
   - ✅ Vendors can update `order_status` via dashboard
-  - Future: SMS / WhatsApp notifications to parents for payment confirmations and pickup instructions
+  - ✅ Database migrations applied with `public_access_token` column
+  - Future: SMS / WhatsApp notifications to parents
 
 - **Reporting & analytics**
   - Dashboards for vendors and schools: popular items, total sales, peak buying periods.
