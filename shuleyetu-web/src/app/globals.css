@@ -6,6 +6,10 @@
   color-scheme: dark;
 }
 
+.light {
+  color-scheme: light;
+}
+
 *,
 *::before,
 *::after {
@@ -14,4 +18,97 @@
 
 body {
   margin: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Light theme overrides using CSS custom properties */
+html.light {
+  --tw-bg-opacity: 1;
+}
+
+html.light body {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+html.light .bg-slate-950 {
+  background-color: #ffffff;
+}
+
+html.light .bg-slate-950\/80 {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+html.light .bg-slate-900\/40,
+html.light .bg-slate-900\/60,
+html.light .bg-slate-900\/30 {
+  background-color: #f1f5f9;
+}
+
+html.light .border-slate-800 {
+  border-color: #e2e8f0;
+}
+
+html.light .border-slate-700 {
+  border-color: #cbd5e1;
+}
+
+html.light .text-slate-50 {
+  color: #0f172a;
+}
+
+html.light .text-slate-100 {
+  color: #1e293b;
+}
+
+html.light .text-slate-200 {
+  color: #334155;
+}
+
+html.light .text-slate-300 {
+  color: #475569;
+}
+
+html.light .text-slate-400 {
+  color: #64748b;
+}
+
+html.light .text-slate-500 {
+  color: #64748b;
+}
+
+html.light .bg-slate-800 {
+  background-color: #e2e8f0;
+}
+
+html.light .bg-slate-800\/60 {
+  background-color: rgba(226, 232, 240, 0.6);
+}
+
+html.light .hover\:bg-slate-800:hover {
+  background-color: #e2e8f0;
+}
+
+html.light .hover\:bg-slate-900:hover {
+  background-color: #f1f5f9;
+}
+
+html.light .from-slate-950 {
+  --tw-gradient-from: #ffffff;
+}
+
+html.light .via-slate-900 {
+  --tw-gradient-via: #f8fafc;
+}
+
+html.light .to-slate-950 {
+  --tw-gradient-to: #ffffff;
+}
+
+html.light .from-sky-950\/50 {
+  --tw-gradient-from: rgba(12, 74, 110, 0.1);
+}
+
+html.light .to-slate-900\/50 {
+  --tw-gradient-to: rgba(241, 245, 249, 0.5);
 }
