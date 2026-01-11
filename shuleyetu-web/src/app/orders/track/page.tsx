@@ -62,115 +62,215 @@ export default function TrackOrderPage() {
   };
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-8 px-4 py-12">
-      <header className="space-y-2">
-        <Link
-          href="/"
-          className="text-xs font-medium text-sky-400 hover:text-sky-300"
-        >
-          ← Home
-        </Link>
-        <h1 className="text-3xl font-semibold tracking-tight">Track an order</h1>
-        <p className="text-sm text-slate-300">
-          Paste your shareable order link (recommended) or enter the Order ID and
-          access token.
-        </p>
-      </header>
+    <main className="flex min-h-screen items-center justify-center px-4 py-12">
+      <div className="w-full max-w-lg">
+        {/* Logo/Brand */}
+        <div className="mb-8 text-center">
+          <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold text-slate-50">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-sky-500 to-emerald-500 text-lg font-bold text-slate-950">
+              S
+            </div>
+            Shuleyetu
+          </Link>
+          <p className="mt-2 text-sm text-slate-400">
+            Order Tracking
+          </p>
+        </div>
 
-      <section className="space-y-4 rounded-xl border border-slate-800 bg-slate-900/40 p-4">
-        <div className="space-y-1">
-          <label className="block text-xs font-medium text-slate-300">
-            Shareable order link
-          </label>
-          <input
-            value={shareLink}
-            onChange={(e) => {
-              setShareLink(e.target.value);
-              setError(null);
-            }}
-            placeholder="https://your-site.com/orders/<orderId>?token=<token>"
-            className="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-50 outline-none focus:border-sky-500"
-          />
-          {parsed && (
-            <p className="text-[11px] text-slate-400">
-              Detected Order ID and token from the link.
+        {/* Track Order Card */}
+        <div className="rounded-2xl border border-slate-800 bg-gradient-to-b from-slate-900/80 to-slate-900/40 p-6 shadow-xl shadow-slate-950/50">
+          <div className="mb-6 text-center">
+            <div className="mx-auto mb-4 inline-flex rounded-lg bg-sky-500/10 p-3 text-sky-400">
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h1 className="text-xl font-semibold text-slate-100">
+              Track Your Order
+            </h1>
+            <p className="mt-1 text-sm text-slate-400">
+              Enter your order details to check status and payment information
             </p>
-          )}
-        </div>
-
-        <div className="grid gap-3 md:grid-cols-2">
-          <div className="space-y-1">
-            <label className="block text-xs font-medium text-slate-300">
-              Order ID
-            </label>
-            <input
-              value={orderId}
-              onChange={(e) => {
-                setOrderId(e.target.value);
-                setError(null);
-              }}
-              placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-              className="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-50 outline-none focus:border-sky-500"
-            />
           </div>
-          <div className="space-y-1">
-            <label className="block text-xs font-medium text-slate-300">
-              Access token
-            </label>
-            <input
-              value={token}
-              onChange={(e) => {
-                setToken(e.target.value);
-                setError(null);
-              }}
-              placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-              className="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-50 outline-none focus:border-sky-500"
-            />
+
+          <div className="space-y-4">
+            {/* Share Link Input */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-slate-300">
+                Shareable order link
+              </label>
+              <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                  </svg>
+                </div>
+                <input
+                  value={shareLink}
+                  onChange={(e) => {
+                    setShareLink(e.target.value);
+                    setError(null);
+                  }}
+                  placeholder="https://shuleyetu.co.tz/orders/..."
+                  className="w-full rounded-lg border border-slate-700 bg-slate-950 py-2.5 pl-10 pr-4 text-sm text-slate-50 placeholder-slate-500 outline-none transition-colors focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20"
+                />
+              </div>
+              {parsed && (
+                <p className="flex items-center gap-2 text-xs text-emerald-400">
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Order details detected from link
+                </p>
+              )}
+            </div>
+
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-slate-700"></div>
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="bg-slate-900/40 px-2 text-slate-500">OR</span>
+              </div>
+            </div>
+
+            {/* Manual Entry */}
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-300">
+                  Order ID
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <input
+                    value={orderId}
+                    onChange={(e) => {
+                      setOrderId(e.target.value);
+                      setError(null);
+                    }}
+                    placeholder="xxxxxxxx-xxxx-xxxx-xxxx"
+                    className="w-full rounded-lg border border-slate-700 bg-slate-950 py-2.5 pl-10 pr-4 text-sm text-slate-50 placeholder-slate-500 outline-none transition-colors focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-300">
+                  Access Token
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                    </svg>
+                  </div>
+                  <input
+                    value={token}
+                    onChange={(e) => {
+                      setToken(e.target.value);
+                      setError(null);
+                    }}
+                    placeholder="xxxxxxxx-xxxx-xxxx-xxxx"
+                    className="w-full rounded-lg border border-slate-700 bg-slate-950 py-2.5 pl-10 pr-4 text-sm text-slate-50 placeholder-slate-500 outline-none transition-colors focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Status Messages */}
+            {!error && !isReady && (
+              <div className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900/30 p-3">
+                <svg className="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-xs text-slate-400">
+                  Enter your order details to continue
+                </p>
+              </div>
+            )}
+
+            {error && (
+              <div className="flex items-start gap-3 rounded-lg border border-red-500/30 bg-red-950/30 p-3">
+                <svg className="h-5 w-5 flex-shrink-0 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-sm text-red-200">{error}</p>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={goToSummary}
+                disabled={!isReady}
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-400 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                View Order Details
+              </button>
+              
+              <button
+                type="button"
+                onClick={goToPay}
+                disabled={!isReady}
+                className="flex w-full items-center justify-center gap-2 rounded-lg border border-emerald-500/50 bg-emerald-500/10 px-4 py-2.5 text-sm font-semibold text-emerald-400 transition-colors hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:border-slate-700 disabled:bg-slate-800 disabled:text-slate-500"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                </svg>
+                Pay with ClickPesa
+              </button>
+            </div>
           </div>
         </div>
 
-        {!error && !isReady && (
-          <p className="text-[11px] text-slate-400">
-            Paste the share link or enter both values (UUIDs) to continue.
-          </p>
-        )}
-
-        {error && (
-          <p className="rounded-lg border border-red-500/40 bg-red-950/40 p-3 text-xs text-red-100">
-            {error}
-          </p>
-        )}
-
-        <div className="flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={goToSummary}
-            disabled={!isReady}
-            className="inline-flex items-center justify-center rounded-md bg-sky-500 px-3 py-1.5 text-sm font-medium text-slate-950 hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-sky-500"
-          >
-            View order summary
-          </button>
-          <button
-            type="button"
-            onClick={goToPay}
-            disabled={!isReady}
-            className="inline-flex items-center justify-center rounded-md bg-emerald-500 px-3 py-1.5 text-sm font-medium text-slate-950 hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-emerald-500"
-          >
-            Pay with ClickPesa
-          </button>
+        {/* Help Info */}
+        <div className="mt-6 rounded-xl border border-slate-800 bg-slate-900/30 p-4">
+          <div className="flex gap-3">
+            <div className="flex-shrink-0 text-amber-400">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div className="text-xs text-slate-400">
+              <p className="font-medium text-slate-300">Need help?</p>
+              <p className="mt-1">
+                After placing an order, you&apos;ll receive a shareable link with your order details. 
+                Keep this link safe to track your order status.
+              </p>
+              <Link
+                href="/orders/new"
+                className="mt-2 inline-flex items-center gap-1 text-sky-400 hover:text-sky-300 transition-colors"
+              >
+                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Create a new order
+              </Link>
+            </div>
+          </div>
         </div>
 
-        <p className="text-[11px] text-slate-500">
-          If you don&apos;t have the link/token, please create a new order and keep
-          the shareable link shown after checkout.
-        </p>
-      </section>
-
-      <section className="text-xs text-slate-400">
-        <Link href="/orders/new" className="text-sky-400 hover:text-sky-300">
-          Create a new order
-        </Link>
-      </section>
+        {/* Back Link */}
+        <div className="mt-6 text-center">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-sky-400 transition-colors"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to home
+          </Link>
+        </div>
+      </div>
     </main>
   );
 }
