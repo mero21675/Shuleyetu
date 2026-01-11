@@ -24,6 +24,48 @@ interface PageProps {
   };
 }
 
+const getCategoryIcon = (category: string) => {
+  switch (category.toLowerCase()) {
+    case 'textbook':
+      return (
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      );
+    case 'uniform':
+      return (
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+        </svg>
+      );
+    case 'stationery':
+      return (
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+        </svg>
+      );
+    default:
+      return (
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>
+      );
+  }
+};
+
+const getCategoryColor = (category: string) => {
+  switch (category.toLowerCase()) {
+    case 'textbook':
+      return 'bg-blue-500/10 text-blue-400';
+    case 'uniform':
+      return 'bg-purple-500/10 text-purple-400';
+    case 'stationery':
+      return 'bg-amber-500/10 text-amber-400';
+    default:
+      return 'bg-slate-500/10 text-slate-400';
+  }
+};
+
 export default async function VendorDetailPage({ params }: PageProps) {
   const vendorId = params.vendorId;
 
@@ -51,87 +93,219 @@ export default async function VendorDetailPage({ params }: PageProps) {
 
   if (!vendor) {
     return (
-      <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-3 py-8 md:px-4 md:py-12">
-        <p className="rounded-lg border border-red-500/40 bg-red-950/40 p-4 text-sm text-red-100">
-          Vendor not found.
-        </p>
-        <Link
-          href="/vendors"
-          className="text-sm font-medium text-sky-400 hover:text-sky-300"
-        >
-          ← Back to vendors
-        </Link>
+      <main className="mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center gap-6 px-3 py-8 md:px-4 md:py-12">
+        <div className="flex flex-col items-center gap-4 rounded-xl border border-red-500/30 bg-red-950/20 p-8 text-center">
+          <div className="rounded-full bg-red-500/10 p-3 text-red-400">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <div>
+            <p className="font-medium text-red-200">Vendor not found</p>
+            <p className="mt-1 text-sm text-red-300/70">This vendor may have been removed or the link is incorrect.</p>
+          </div>
+          <Link
+            href="/vendors"
+            className="inline-flex items-center gap-2 rounded-lg bg-red-500/20 px-4 py-2 text-sm font-medium text-red-200 transition-colors hover:bg-red-500/30"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to vendors
+          </Link>
+        </div>
       </main>
     );
   }
 
   const inventory: InventoryItem[] = items ?? [];
   const itemCount = inventory.length;
+  const categories = [...new Set(inventory.map(item => item.category))];
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-8 px-3 py-8 md:px-4 md:py-12">
-      <header className="space-y-2">
-        <Link
-          href="/vendors"
-          className="text-xs font-medium text-sky-400 hover:text-sky-300"
-        >
-          ← All vendors
+    <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-3 py-8 md:px-4 md:py-12">
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-2 text-sm text-slate-400">
+        <Link href="/vendors" className="hover:text-sky-400 transition-colors">
+          Vendors
         </Link>
-        <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
-          {vendor.name}
-        </h1>
-        {vendor.description && (
-          <p className="text-sm text-slate-300">{vendor.description}</p>
-        )}
-        <p className="text-xs text-slate-400">
-          {[vendor.region, vendor.district, vendor.ward]
-            .filter(Boolean)
-            .join(" · ") || "Location not set"}
-        </p>
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+        <span className="text-slate-200">{vendor.name}</span>
+      </nav>
+
+      {/* Vendor Header */}
+      <header className="rounded-xl border border-slate-800 bg-gradient-to-r from-slate-900/80 to-slate-900/40 p-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <div className="flex items-start gap-4">
+            {/* Vendor Avatar */}
+            <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500/20 to-emerald-500/20 text-2xl font-bold text-sky-400">
+              {vendor.name.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+                {vendor.name}
+              </h1>
+              {vendor.description && (
+                <p className="mt-1 max-w-xl text-sm text-slate-300">{vendor.description}</p>
+              )}
+              <div className="mt-2 flex items-center gap-1.5 text-sm text-slate-400">
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span>
+                  {[vendor.region, vendor.district, vendor.ward].filter(Boolean).join(", ") || "Tanzania"}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Stats */}
+          <div className="flex gap-4">
+            <div className="rounded-lg bg-slate-800/50 px-4 py-2 text-center">
+              <p className="text-2xl font-bold text-sky-400">{itemCount}</p>
+              <p className="text-xs text-slate-400">Products</p>
+            </div>
+            <div className="rounded-lg bg-slate-800/50 px-4 py-2 text-center">
+              <p className="text-2xl font-bold text-emerald-400">{categories.length}</p>
+              <p className="text-xs text-slate-400">Categories</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="mt-4 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
+          <Link
+            href={`/orders/new?vendor=${vendorId}`}
+            className="inline-flex items-center gap-2 rounded-lg bg-sky-500 px-4 py-2 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-400"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Order from this vendor
+          </Link>
+          <Link
+            href="/vendors"
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            All vendors
+          </Link>
+        </div>
       </header>
 
-      <section className="space-y-3">
+      {/* Inventory Section */}
+      <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Inventory</h2>
-          <span className="text-xs text-slate-400">
-            {itemCount} item{itemCount === 1 ? "" : "s"}
-          </span>
+          <h2 className="text-lg font-semibold">Products</h2>
+          {categories.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <span
+                  key={cat}
+                  className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${getCategoryColor(cat)}`}
+                >
+                  {cat}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         {inventory.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-4 text-sm text-slate-300">
-            No items for this vendor yet. Add rows in the
-            <code className="mx-1 rounded bg-slate-800 px-1 py-0.5 text-xs">
-              inventory
-            </code>
-            table in Supabase (with
-            <code className="mx-1 rounded bg-slate-800 px-1 py-0.5 text-xs">
-              vendor_id = {vendor.id}
-            </code>
-            ) to see them here.
-          </p>
+          <div className="flex flex-col items-center gap-4 rounded-xl border border-dashed border-slate-700 bg-slate-900/20 p-12 text-center">
+            <div className="rounded-full bg-slate-800 p-4 text-slate-500">
+              <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-medium text-slate-300">No products available</p>
+              <p className="mt-1 text-sm text-slate-500">
+                This vendor hasn&apos;t added any products yet.
+              </p>
+            </div>
+            <Link
+              href="/vendors"
+              className="rounded-lg bg-sky-500/10 px-4 py-2 text-sm font-medium text-sky-400 transition-colors hover:bg-sky-500/20"
+            >
+              Browse other vendors
+            </Link>
+          </div>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {inventory.map((item) => (
               <article
                 key={item.id}
-                className="rounded-xl border border-slate-800 bg-slate-900/40 p-4"
+                className="group flex flex-col rounded-xl border border-slate-800 bg-slate-900/40 p-4 transition-all hover:border-slate-700 hover:bg-slate-900/60"
               >
-                <h3 className="text-base font-medium">{item.name}</h3>
-                <p className="mt-1 text-xs uppercase tracking-wide text-slate-400">
-                  {item.category}
-                </p>
-                <p className="mt-2 text-sm font-semibold text-sky-300">
-                  {item.price_tzs.toLocaleString("en-TZ")} TZS
-                </p>
-                <p className="mt-1 text-xs text-slate-400">
-                  Stock: {item.stock_quantity}
-                </p>
+                <div className="flex items-start justify-between gap-3">
+                  <div className={`rounded-lg p-2 ${getCategoryColor(item.category)}`}>
+                    {getCategoryIcon(item.category)}
+                  </div>
+                  {item.stock_quantity > 0 ? (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-400">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+                      In Stock
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 px-2 py-0.5 text-xs font-medium text-red-400">
+                      <span className="h-1.5 w-1.5 rounded-full bg-red-400"></span>
+                      Out of Stock
+                    </span>
+                  )}
+                </div>
+
+                <div className="mt-3 flex-1">
+                  <h3 className="font-semibold text-slate-100 group-hover:text-sky-400 transition-colors">
+                    {item.name}
+                  </h3>
+                  <p className="mt-1 text-xs uppercase tracking-wide text-slate-500">
+                    {item.category}
+                  </p>
+                </div>
+
+                <div className="mt-4 flex items-end justify-between border-t border-slate-800 pt-3">
+                  <div>
+                    <p className="text-lg font-bold text-sky-400">
+                      {item.price_tzs.toLocaleString("en-TZ")}
+                      <span className="ml-1 text-xs font-normal text-slate-400">TZS</span>
+                    </p>
+                  </div>
+                  <p className="text-xs text-slate-500">
+                    {item.stock_quantity} {item.stock_quantity === 1 ? 'unit' : 'units'} available
+                  </p>
+                </div>
               </article>
             ))}
           </div>
         )}
       </section>
+
+      {/* CTA Section */}
+      {inventory.length > 0 && (
+        <section className="flex flex-col items-center gap-4 rounded-xl border border-slate-800 bg-gradient-to-r from-sky-950/30 to-slate-900/30 p-6 text-center sm:flex-row sm:text-left">
+          <div className="flex-1">
+            <h3 className="font-semibold text-slate-200">Ready to order?</h3>
+            <p className="mt-1 text-sm text-slate-400">
+              Create an order with {vendor.name} and get your school supplies delivered.
+            </p>
+          </div>
+          <Link
+            href={`/orders/new?vendor=${vendorId}`}
+            className="inline-flex items-center gap-2 rounded-lg bg-sky-500 px-5 py-2.5 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-400"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Start Order
+          </Link>
+        </section>
+      )}
     </main>
   );
 }

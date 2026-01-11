@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { MobileNav } from "@/components/ui/MobileNav";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -125,6 +126,7 @@ export default function RootLayout({
                 </div>
               </div>
             </footer>
+              <ScrollToTop />
             </div>
           </ToastProvider>
         </LanguageProvider>
