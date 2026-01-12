@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseClient } from "@/lib/supabaseClient";
-import { useToast } from "@/components/ToastProvider";
+import { useToast } from "@/components/ui/Toast";
 
 type VendorMapping = {
   vendor_id: string;
@@ -57,7 +57,7 @@ function paymentStatusClass(status: string): string {
 
 export default function DashboardOrdersPage() {
   const router = useRouter();
-  const { showToast } = useToast();
+  const { addToast } = useToast();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [vendor, setVendor] = useState<VendorMapping | null>(null);
@@ -186,10 +186,10 @@ export default function DashboardOrdersPage() {
     if (updateErr) {
       console.error('Error updating order status', updateErr);
       setUpdateError('Failed to update order status.');
-      showToast({
-        variant: 'error',
+      addToast({
+        type: 'error',
         title: 'Order status not updated',
-        description: 'Something went wrong. Please try again.',
+        message: 'Something went wrong. Please try again.',
       });
       setUpdatingId(null);
       return;
@@ -201,10 +201,10 @@ export default function DashboardOrdersPage() {
       toDate: toDate || undefined,
     });
 
-    showToast({
-      variant: 'success',
+    addToast({
+      type: 'success',
       title: 'Order status updated',
-      description: `New status: ${newStatus}`,
+      message: `New status: ${newStatus}`,
     });
 
     setUpdatingId(null);

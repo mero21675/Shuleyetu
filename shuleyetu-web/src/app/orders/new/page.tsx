@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { supabaseClient } from '@/lib/supabaseClient';
+import { useToast } from '@/components/ui/Toast';
 
 type Vendor = {
   id: string;
@@ -17,6 +18,7 @@ type InventoryItem = {
 };
 
 export default function NewOrderPage() {
+  const { addToast } = useToast();
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [selectedVendorId, setSelectedVendorId] = useState('');
   const [items, setItems] = useState<InventoryItem[]>([]);
@@ -46,15 +48,26 @@ export default function NewOrderPage() {
 
       if (error) {
         console.error('Error loading vendors', error);
-        setError('Failed to load vendors.');
+        addToast({
+          type: 'error',
+          title: 'Failed to load vendors',
+          message: 'Please try again later'
+        });
       } else {
         setVendors(data ?? []);
+        if (data && data.length > 0) {
+          addToast({
+            type: 'success',
+            title: 'Vendors loaded',
+            message: `Found ${data.length} vendors`
+          });
+        }
       }
       setLoadingVendors(false);
     };
 
     loadVendors();
-  }, []);
+  }, [addToast]);
 
   useEffect(() => {
     const loadItems = async () => {
@@ -75,17 +88,28 @@ export default function NewOrderPage() {
 
       if (error) {
         console.error('Error loading inventory', error);
-        setError('Failed to load inventory for this vendor.');
+        addToast({
+          type: 'error',
+          title: 'Failed to load inventory',
+          message: 'Please try selecting a different vendor'
+        });
       } else {
         setItems(data ?? []);
         setQuantities({});
+        if (data && data.length > 0) {
+          addToast({
+            type: 'success',
+            title: 'Inventory loaded',
+            message: `Found ${data.length} items`
+          });
+        }
       }
 
       setLoadingItems(false);
     };
 
     void loadItems();
-  }, [selectedVendorId]);
+  }, [selectedVendorId, addToast]);
 
   const totalAmount = useMemo(() => {
     return items.reduce((sum, item) => {
@@ -110,23 +134,39 @@ export default function NewOrderPage() {
     setCreatedToken(null);
 
     if (!selectedVendorId) {
-      setError('Please select a vendor.');
+      addToast({
+        type: 'error',
+        title: 'No vendor selected',
+        message: 'Please select a vendor to continue'
+      });
       return;
     }
 
     if (!customerName.trim() || !customerPhone.trim()) {
-      setError('Please provide customer name and phone.');
+      addToast({
+        type: 'error',
+        title: 'Missing customer information',
+        message: 'Please provide both customer name and phone number'
+      });
       return;
     }
 
     const selectedItems = items.filter((item) => (quantities[item.id] ?? 0) > 0);
     if (selectedItems.length === 0) {
-      setError('Please choose at least one item with quantity.');
+      addToast({
+        type: 'error',
+        title: 'No items selected',
+        message: 'Please choose at least one item to order'
+      });
       return;
     }
 
     if (totalAmount <= 0) {
-      setError('Order total must be greater than zero.');
+      addToast({
+        type: 'error',
+        title: 'Invalid order total',
+        message: 'Please select at least one item with quantity greater than zero'
+      });
       return;
     }
 
@@ -166,7 +206,11 @@ export default function NewOrderPage() {
           orderError?.message?.includes('public_access_token')
             ? 'Failed to create order. The database is missing public access tokens. Apply the latest Supabase migration and try again.'
             : 'Failed to create order.';
-        setError(message);
+        addToast({
+          type: 'error',
+          title: 'Order creation failed',
+          message: message
+        });
         setSubmitting(false);
         return;
       }
@@ -194,12 +238,20 @@ export default function NewOrderPage() {
 
       if (itemsError) {
         console.error('Error creating order items', itemsError);
-        setError('Order was created, but adding items failed.');
+        addToast({
+          type: 'warning',
+          title: 'Order partially created',
+          message: 'Order was created but adding items failed. Please contact support.'
+        });
         setSubmitting(false);
         return;
       }
 
-      setSuccess('Order created successfully.');
+      addToast({
+        type: 'success',
+        title: 'Order created successfully!',
+        message: `Order #${orderId.slice(0, 8)} has been created`
+      });
       setCreatedOrderId(orderId);
       setCreatedToken(publicAccessToken);
       setQuantities({});
@@ -209,7 +261,11 @@ export default function NewOrderPage() {
       setSchoolName('');
     } catch (err) {
       console.error('Unexpected error when creating order', err);
-      setError('Unexpected error while creating order.');
+      addToast({
+        type: 'error',
+        title: 'Unexpected error',
+        message: 'Something went wrong while creating your order. Please try again.'
+      });
     } finally {
       setSubmitting(false);
     }

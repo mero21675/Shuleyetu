@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { NavUser } from "@/components/NavUser";
-import { ToastProvider } from "@/components/ToastProvider";
+import { ToastProvider } from "@/components/ui/Toast";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { MobileNav } from "@/components/ui/MobileNav";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";

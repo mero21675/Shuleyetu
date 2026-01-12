@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseClient } from "@/lib/supabaseClient";
-import { useToast } from "@/components/ToastProvider";
+import { useToast } from "@/components/ui/Toast";
 
 type VendorMapping = {
   vendor_id: string;
@@ -15,7 +15,7 @@ type VendorMapping = {
 
 export default function NewInventoryItemPage() {
   const router = useRouter();
-  const { showToast } = useToast();
+  const { addToast } = useToast();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -118,19 +118,19 @@ export default function NewInventoryItemPage() {
     if (insertError) {
       console.error('Error creating inventory item', insertError);
       setError('Failed to create item.');
-      showToast({
-        variant: 'error',
+      addToast({
+        type: 'error',
         title: 'Item not saved',
-        description: 'Something went wrong while creating the item.',
+        message: 'Something went wrong while creating the item.',
       });
       setSubmitting(false);
       return;
     }
 
-    showToast({
-      variant: 'success',
+    addToast({
+      type: 'success',
       title: 'Item created',
-      description: 'Your inventory item has been saved.',
+      message: 'Your inventory item has been saved.',
     });
 
     router.push('/dashboard/inventory');
