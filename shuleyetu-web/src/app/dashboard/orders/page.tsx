@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { supabaseClient } from "@/lib/supabaseClient";
 import { useToast } from "@/components/ui/Toast";
 import { TableRowSkeleton } from "@/components/ui/SkeletonLoader";
+import { EmptyOrders } from "@/components/ui/EmptyState";
 
 type VendorMapping = {
   vendor_id: string;
@@ -337,9 +338,7 @@ export default function DashboardOrdersPage() {
             ))}
           </div>
         ) : orders.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-4 text-sm text-slate-300">
-            No orders match the current filters.
-          </p>
+          <EmptyOrders />
         ) : (
           <div className="flex flex-col gap-3">
             {orders.map((order) => {

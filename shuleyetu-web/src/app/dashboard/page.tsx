@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseClient } from "@/lib/supabaseClient";
 import { StatCard, BarChart, LineChart, PieChart } from "@/components/ui/Chart";
+import { EmptyOrders } from "@/components/ui/EmptyState";
 
 type VendorMapping = {
   vendor_id: string;
@@ -359,9 +360,9 @@ export default function DashboardPage() {
         </div>
 
         {recentOrders.length === 0 ? (
-          <p className="py-8 text-center text-sm text-slate-400">
-            No orders yet. Share your vendor page to start receiving orders!
-          </p>
+          <div className="py-8">
+            <EmptyOrders />
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseClient } from "@/lib/supabaseClient";
+import { EmptyInventory } from "@/components/ui/EmptyState";
 
 type VendorMapping = {
   vendor_id: string;
@@ -156,18 +157,7 @@ export default function DashboardInventoryPage() {
       </header>
 
       {items.length === 0 ? (
-        <section className="space-y-3 text-sm">
-          <p className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-4 text-sm text-slate-300">
-            No items yet. Use the button below to add your first item for this
-            vendor.
-          </p>
-          <Link
-            href="/dashboard/inventory/new"
-            className="inline-flex w-full items-center justify-center rounded-md bg-sky-500 px-4 py-2 text-sm font-medium text-slate-950 hover:bg-sky-400 md:w-auto"
-          >
-            Add item
-          </Link>
-        </section>
+        <EmptyInventory />
       ) : (
         <section className="space-y-3 text-sm">
           <div className="flex flex-col items-start gap-2 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
