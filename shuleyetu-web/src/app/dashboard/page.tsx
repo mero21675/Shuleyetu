@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseClient } from "@/lib/supabaseClient";
+import { StatCard, BarChart, LineChart, PieChart } from "@/components/ui/Chart";
 
 type VendorMapping = {
   vendor_id: string;
@@ -213,61 +214,49 @@ export default function DashboardPage() {
 
       {/* Analytics Overview */}
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border border-slate-800 bg-gradient-to-br from-emerald-950/50 to-slate-900/50 p-4">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-emerald-500/10 p-2 text-emerald-400">
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs text-slate-400">Total Sales</p>
-              <p className="text-lg font-bold text-emerald-400">{formatCurrency(analytics.totalSales)}</p>
-            </div>
-          </div>
-        </div>
+        <StatCard
+          title="Total Sales"
+          value={formatCurrency(analytics.totalSales)}
+          change={12.5}
+          icon={
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          }
+        />
 
-        <div className="rounded-xl border border-slate-800 bg-gradient-to-br from-sky-950/50 to-slate-900/50 p-4">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-sky-500/10 p-2 text-sky-400">
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs text-slate-400">Paid Orders</p>
-              <p className="text-lg font-bold text-sky-400">{analytics.paidOrders}</p>
-            </div>
-          </div>
-        </div>
+        <StatCard
+          title="Paid Orders"
+          value={analytics.paidOrders}
+          change={8.2}
+          icon={
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          }
+        />
 
-        <div className="rounded-xl border border-slate-800 bg-gradient-to-br from-amber-950/50 to-slate-900/50 p-4">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-amber-500/10 p-2 text-amber-400">
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs text-slate-400">Pending</p>
-              <p className="text-lg font-bold text-amber-400">{analytics.pendingOrders}</p>
-            </div>
-          </div>
-        </div>
+        <StatCard
+          title="Pending Orders"
+          value={analytics.pendingOrders}
+          change={-3.1}
+          icon={
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          }
+        />
 
-        <div className="rounded-xl border border-slate-800 bg-gradient-to-br from-violet-950/50 to-slate-900/50 p-4">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-violet-500/10 p-2 text-violet-400">
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs text-slate-400">Completed</p>
-              <p className="text-lg font-bold text-violet-400">{analytics.completedOrders}</p>
-            </div>
-          </div>
-        </div>
+        <StatCard
+          title="Completed Orders"
+          value={analytics.completedOrders}
+          change={15.3}
+          icon={
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          }
+        />
       </section>
 
       {/* Quick Stats */}
@@ -317,6 +306,44 @@ export default function DashboardPage() {
           <p className="mt-2 text-lg font-semibold text-slate-200">Add New Item</p>
           <p className="mt-1 text-xs text-slate-400">Add products to your inventory</p>
         </Link>
+      </section>
+
+      {/* Charts Section */}
+      <section className="grid gap-6 lg:grid-cols-2">
+        {/* Sales Chart */}
+        <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
+          <h3 className="text-lg font-semibold text-slate-50 mb-4">Sales Overview</h3>
+          <div className="flex justify-center">
+            <LineChart 
+              data={[
+                { label: 'Jan', value: 45000 },
+                { label: 'Feb', value: 52000 },
+                { label: 'Mar', value: 48000 },
+                { label: 'Apr', value: 61000 },
+                { label: 'May', value: 58000 },
+                { label: 'Jun', value: 67000 },
+              ]}
+              width={350}
+              height={200}
+            />
+          </div>
+        </div>
+
+        {/* Order Status Distribution */}
+        <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
+          <h3 className="text-lg font-semibold text-slate-50 mb-4">Order Status</h3>
+          <div className="flex justify-center">
+            <PieChart 
+              data={[
+                { label: 'Paid', value: analytics.paidOrders },
+                { label: 'Pending', value: analytics.pendingOrders },
+                { label: 'Completed', value: analytics.completedOrders },
+              ]}
+              width={200}
+              height={200}
+            />
+          </div>
+        </div>
       </section>
 
       {/* Recent Orders */}
