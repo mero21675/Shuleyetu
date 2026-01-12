@@ -6,6 +6,7 @@ import { supabaseClient } from '@/lib/supabaseClient';
 import { useToast } from '@/components/ui/Toast';
 import { ProgressSteps } from '@/components/ui/ProgressSteps';
 import { CardSkeleton } from '@/components/ui/SkeletonLoader';
+import { FormField, ValidationRules } from '@/components/ui/FormField';
 
 type Vendor = {
   id: string;
@@ -509,51 +510,43 @@ export default function NewOrderPage() {
             </div>
 
             <div className="space-y-4 max-w-md mx-auto">
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-slate-300">Customer Name *</label>
-                <input
-                  value={customerName}
-                  onChange={(event) => setCustomerName(event.target.value)}
-                  className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-slate-50 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20"
-                  placeholder="Parent / guardian name"
-                />
-                {formErrors.customerName && (
-                  <p className="text-xs text-red-400">{formErrors.customerName}</p>
-                )}
-              </div>
+              <FormField
+                label="Customer Name"
+                name="customerName"
+                value={customerName}
+                onChange={setCustomerName}
+                placeholder="Parent / guardian name"
+                validation={ValidationRules.name}
+                required
+              />
 
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-slate-300">Phone Number *</label>
-                <input
-                  value={customerPhone}
-                  onChange={(event) => setCustomerPhone(event.target.value)}
-                  className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-slate-50 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20"
-                  placeholder="e.g. 0712 123 456"
-                />
-                {formErrors.customerPhone && (
-                  <p className="text-xs text-red-400">{formErrors.customerPhone}</p>
-                )}
-              </div>
+              <FormField
+                label="Phone Number"
+                name="customerPhone"
+                value={customerPhone}
+                onChange={setCustomerPhone}
+                placeholder="e.g. 0712 123 456"
+                validation={ValidationRules.tanzanianPhone}
+                required
+              />
 
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-slate-300">Student Name (Optional)</label>
-                <input
-                  value={studentName}
-                  onChange={(event) => setStudentName(event.target.value)}
-                  className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-slate-50 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20"
-                  placeholder="Student name"
-                />
-              </div>
+              <FormField
+                label="Student Name (Optional)"
+                name="studentName"
+                value={studentName}
+                onChange={setStudentName}
+                placeholder="Student name"
+                validation={{ maxLength: 50 }}
+              />
 
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-slate-300">School Name (Optional)</label>
-                <input
-                  value={schoolName}
-                  onChange={(event) => setSchoolName(event.target.value)}
-                  className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-slate-50 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20"
-                  placeholder="School name"
-                />
-              </div>
+              <FormField
+                label="School Name (Optional)"
+                name="schoolName"
+                value={schoolName}
+                onChange={setSchoolName}
+                placeholder="School name"
+                validation={{ maxLength: 100 }}
+              />
             </div>
 
             <div className="flex justify-between">

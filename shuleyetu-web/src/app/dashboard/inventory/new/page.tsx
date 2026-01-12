@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseClient } from "@/lib/supabaseClient";
 import { useToast } from "@/components/ui/Toast";
+import { FormField, ValidationRules } from "@/components/ui/FormField";
 
 type VendorMapping = {
   vendor_id: string;
@@ -196,30 +197,26 @@ export default function NewInventoryItemPage() {
         )}
 
         <form onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-1 md:col-span-2">
-            <label className="block text-xs font-medium text-slate-300">
-              Name
-            </label>
-            <input
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              className="w-full rounded-md border border-slate-700 bg-slate-950 px-2 py-1.5 text-sm text-slate-50 outline-none focus:border-sky-500"
-              placeholder="e.g. Form One Mathematics Textbook"
-            />
-          </div>
+          <FormField
+            label="Name"
+            name="name"
+            value={name}
+            onChange={setName}
+            placeholder="e.g. Form One Mathematics Textbook"
+            validation={ValidationRules.name}
+            className="md:col-span-2"
+          />
 
-          <div className="space-y-1 md:col-span-2">
-            <label className="block text-xs font-medium text-slate-300">
-              Description (optional)
-            </label>
-            <textarea
-              value={description}
-              onChange={(event) => setDescription(event.target.value)}
-              rows={3}
-              className="w-full rounded-md border border-slate-700 bg-slate-950 px-2 py-1.5 text-sm text-slate-50 outline-none focus:border-sky-500"
-              placeholder="Short description or notes about this item"
-            />
-          </div>
+          <FormField
+            label="Description (optional)"
+            name="description"
+            type="textarea"
+            value={description}
+            onChange={setDescription}
+            placeholder="Brief description of the item"
+            validation={{ maxLength: 500 }}
+            className="md:col-span-2"
+          />
 
           <div className="space-y-1">
             <label className="block text-xs font-medium text-slate-300">
@@ -237,33 +234,27 @@ export default function NewInventoryItemPage() {
             </select>
           </div>
 
-          <div className="space-y-1">
-            <label className="block text-xs font-medium text-slate-300">
-              Price (TZS)
-            </label>
-            <input
-              type="number"
-              min="0"
-              step="1"
-              value={price}
-              onChange={(event) => setPrice(event.target.value)}
-              className="w-full rounded-md border border-slate-700 bg-slate-950 px-2 py-1.5 text-sm text-slate-50 outline-none focus:border-sky-500"
-            />
-          </div>
+          <FormField
+            label="Price (TZS)"
+            name="price"
+            type="number"
+            value={price}
+            onChange={setPrice}
+            placeholder="0"
+            validation={{ required: true, min: 0 }}
+            helperText="Enter the price in Tanzanian Shillings"
+          />
 
-          <div className="space-y-1">
-            <label className="block text-xs font-medium text-slate-300">
-              Stock quantity
-            </label>
-            <input
-              type="number"
-              min="0"
-              step="1"
-              value={stock}
-              onChange={(event) => setStock(event.target.value)}
-              className="w-full rounded-md border border-slate-700 bg-slate-950 px-2 py-1.5 text-sm text-slate-50 outline-none focus:border-sky-500"
-            />
-          </div>
+          <FormField
+            label="Stock quantity"
+            name="stock"
+            type="number"
+            value={stock}
+            onChange={setStock}
+            placeholder="0"
+            validation={{ required: true, min: 0 }}
+            helperText="Number of items available in stock"
+          />
 
           <div className="flex items-center gap-2">
             <input
