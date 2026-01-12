@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseClient } from "@/lib/supabaseClient";
 import { useToast } from "@/components/ui/Toast";
+import { TableRowSkeleton } from "@/components/ui/SkeletonLoader";
 
 type VendorMapping = {
   vendor_id: string;
@@ -219,10 +220,7 @@ export default function DashboardOrdersPage() {
         </header>
         <section className="space-y-2">
           {Array.from({ length: 4 }).map((_, index) => (
-            <div
-              key={index}
-              className="h-20 rounded-xl border border-slate-800 bg-slate-900/60 animate-pulse"
-            />
+            <TableRowSkeleton key={index} />
           ))}
         </section>
       </main>
@@ -333,7 +331,11 @@ export default function DashboardOrdersPage() {
           </p>
         )}
         {loading && orders.length === 0 ? (
-          <p className="text-sm text-slate-300">Loading orders…</p>
+          <div className="space-y-3">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <TableRowSkeleton key={index} />
+            ))}
+          </div>
         ) : orders.length === 0 ? (
           <p className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-4 text-sm text-slate-300">
             No orders match the current filters.

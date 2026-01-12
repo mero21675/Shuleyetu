@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { supabaseClient } from '@/lib/supabaseClient';
 import { useToast } from '@/components/ui/Toast';
 import { ProgressSteps } from '@/components/ui/ProgressSteps';
+import { CardSkeleton } from '@/components/ui/SkeletonLoader';
 
 type Vendor = {
   id: string;
@@ -412,7 +413,13 @@ export default function NewOrderPage() {
               <p className="text-sm text-slate-400">Choose the items you want to order</p>
             </div>
 
-            {items.length === 0 ? (
+            {loadingItems ? (
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <CardSkeleton key={index} height="80px" />
+                ))}
+              </div>
+            ) : items.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-slate-400">No items available for this vendor</p>
               </div>

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { supabaseClient } from '@/lib/supabaseClient';
+import { VendorCardSkeleton } from '@/components/ui/SkeletonLoader';
 
 type Vendor = {
   id: string;
@@ -195,23 +196,7 @@ export default function VendorsPage() {
       {loading ? (
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-3 rounded-xl border border-slate-800 bg-slate-900/40 p-5"
-            >
-              <div className="flex items-start gap-3">
-                <div className="h-12 w-12 rounded-lg bg-slate-800 animate-pulse" />
-                <div className="flex-1 space-y-2">
-                  <div className="h-4 w-3/4 rounded bg-slate-800 animate-pulse" />
-                  <div className="h-3 w-1/2 rounded bg-slate-800/60 animate-pulse" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <div className="h-3 w-full rounded bg-slate-800/60 animate-pulse" />
-                <div className="h-3 w-2/3 rounded bg-slate-800/60 animate-pulse" />
-              </div>
-              <div className="h-8 w-full rounded-lg bg-slate-800/40 animate-pulse" />
-            </div>
+            <VendorCardSkeleton key={index} />
           ))}
         </section>
       ) : error ? (
