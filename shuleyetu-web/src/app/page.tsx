@@ -1,6 +1,11 @@
+'use client';
+
 import Link from "next/link";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function HomePage() {
+  const { t } = useLanguage();
+
   return (
     <main className="flex flex-col">
       {/* Hero Section */}
@@ -13,17 +18,16 @@ export default function HomePage() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-500"></span>
               </span>
-              Tanzanian School Supply Marketplace
+              {t('heroTagline')}
             </div>
             
             <h1 className="text-4xl font-bold tracking-tight text-slate-50 md:text-5xl lg:text-6xl">
-              School supplies
-              <span className="block text-sky-400">made easy</span>
+              {t('heroTitle')}
+              <span className="block text-sky-400">{t('heroTitleHighlight')}</span>
             </h1>
             
             <p className="text-lg text-slate-300 md:text-xl">
-              Connect with trusted vendors across Tanzania. Find textbooks, uniforms, 
-              and stationery for your children&apos;s education.
+              {t('heroDescription')}
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
@@ -34,7 +38,7 @@ export default function HomePage() {
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                Browse Vendors
+                {t('browseVendors')}
               </Link>
               <Link
                 href="/orders/new"
@@ -43,7 +47,7 @@ export default function HomePage() {
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
-                Create Order
+                {t('createOrder')}
               </Link>
             </div>
           </div>
@@ -56,19 +60,19 @@ export default function HomePage() {
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-sky-400 md:text-3xl">100+</p>
-              <p className="text-xs text-slate-400 md:text-sm">Vendors</p>
+              <p className="text-xs text-slate-400 md:text-sm">{t('vendorsCount')}</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-sky-400 md:text-3xl">5000+</p>
-              <p className="text-xs text-slate-400 md:text-sm">Products</p>
+              <p className="text-xs text-slate-400 md:text-sm">{t('productsCount')}</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-sky-400 md:text-3xl">26</p>
-              <p className="text-xs text-slate-400 md:text-sm">Regions</p>
+              <p className="text-xs text-slate-400 md:text-sm">{t('regionsCount')}</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-sky-400 md:text-3xl">24/7</p>
-              <p className="text-xs text-slate-400 md:text-sm">Support</p>
+              <p className="text-xs text-slate-400 md:text-sm">{t('support')}</p>
             </div>
           </div>
         </div>
@@ -77,8 +81,8 @@ export default function HomePage() {
       {/* Who it's for */}
       <section className="mx-auto max-w-5xl px-3 py-12 md:px-4 md:py-16">
         <div className="mb-8 text-center">
-          <h2 className="text-2xl font-bold text-slate-50 md:text-3xl">Built for everyone</h2>
-          <p className="mt-2 text-sm text-slate-400">Whether you&apos;re a parent, vendor, or school administrator</p>
+          <h2 className="text-2xl font-bold text-slate-50 md:text-3xl">{t('builtForEveryone')}</h2>
+          <p className="mt-2 text-sm text-slate-400">{t('builtForEveryoneDesc')}</p>
         </div>
         
         <div className="grid gap-4 md:grid-cols-3">
@@ -88,19 +92,19 @@ export default function HomePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-slate-50">For Parents</h3>
+            <h3 className="text-lg font-semibold text-slate-50">{t('forParents')}</h3>
             <ul className="mt-3 space-y-2 text-sm text-slate-300">
               <li className="flex items-start gap-2">
                 <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                Find trusted vendors near your school
+                {t('findTrustedVendors')}
               </li>
               <li className="flex items-start gap-2">
                 <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                Compare prices across vendors
+                {t('comparePrices')}
               </li>
               <li className="flex items-start gap-2">
                 <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
