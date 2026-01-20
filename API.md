@@ -658,6 +658,316 @@ response = requests.get(
 
 ---
 
+## Analytics Endpoints
+
+### Generate Sales Report
+
+```
+POST /api/analytics/sales
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "startDate": "2024-01-01",
+  "endDate": "2024-01-31",
+  "vendorId": "vendor-id"
+}
+```
+
+**Response**
+```json
+{
+  "period": { "start": "2024-01-01", "end": "2024-01-31" },
+  "sales": {
+    "totalSales": 500000,
+    "averageOrderValue": 50000,
+    "totalOrders": 10,
+    "topProducts": [...],
+    "topCategories": [...],
+    "salesTrend": [...]
+  },
+  "inventory": {...},
+  "customers": {...},
+  "summary": {...}
+}
+```
+
+### Export Analytics Report
+
+```
+GET /api/analytics/export?format=csv&startDate=2024-01-01&endDate=2024-01-31
+Authorization: Bearer <token>
+```
+
+**Response**: CSV or JSON file download
+
+---
+
+## Forecasting Endpoints
+
+### Generate Inventory Forecast
+
+```
+POST /api/forecasting/generate
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "vendorId": "vendor-id",
+  "leadTimeDays": 7,
+  "safetyStock": 10
+}
+```
+
+**Response**
+```json
+{
+  "generatedAt": "2024-01-21T12:00:00Z",
+  "forecastPeriod": { "start": "2024-01-21", "end": "2024-02-20" },
+  "items": [
+    {
+      "itemId": "item-1",
+      "itemName": "Mathematics Textbook",
+      "currentStock": 20,
+      "averageDailySales": 2.5,
+      "forecastedDemand": 75,
+      "recommendedReorderPoint": 25,
+      "recommendedOrderQuantity": 90,
+      "daysUntilStockout": 8,
+      "confidence": 0.85,
+      "trend": "stable"
+    }
+  ],
+  "summary": {
+    "itemsAtRisk": 2,
+    "totalRecommendedOrders": 500,
+    "estimatedCost": 12500000
+  }
+}
+```
+
+### Get Urgent Reorders
+
+```
+GET /api/forecasting/urgent-reorders?vendorId=vendor-id&leadTimeDays=7
+Authorization: Bearer <token>
+```
+
+**Response**: Array of items that need immediate reordering
+
+### Get Overstocked Items
+
+```
+GET /api/forecasting/overstocked?vendorId=vendor-id
+Authorization: Bearer <token>
+```
+
+**Response**: Array of overstocked items
+
+---
+
+## Notification Endpoints
+
+### Send SMS Notification
+
+```
+POST /api/notifications/sms
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "phoneNumber": "255712345678",
+  "message": "Your order has been confirmed"
+}
+```
+
+**Response**
+```json
+{
+  "success": true,
+  "messageId": "msg-123456",
+  "status": "sent"
+}
+```
+
+### Send WhatsApp Notification
+
+```
+POST /api/notifications/whatsapp
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "phoneNumber": "255712345678",
+  "message": "Your order has been confirmed"
+}
+```
+
+**Response**
+```json
+{
+  "success": true,
+  "messageId": "msg-123456",
+  "status": "sent"
+}
+```
+
+### Get Notification Logs
+
+```
+GET /api/notifications/logs?limit=100&offset=0
+Authorization: Bearer <token>
+```
+
+**Response**
+```json
+{
+  "logs": [
+    {
+      "id": "log-1",
+      "eventType": "order_created",
+      "resourceId": "order-123",
+      "status": "success",
+      "createdAt": "2024-01-21T12:00:00Z"
+    }
+  ],
+  "pagination": { "total": 1000, "limit": 100, "offset": 0 }
+}
+```
+
+### Get Notification Statistics
+
+```
+GET /api/notifications/stats?days=7
+Authorization: Bearer <token>
+```
+
+**Response**
+```json
+{
+  "period": "7 days",
+  "total": 500,
+  "successful": 485,
+  "failed": 15,
+  "successRate": 97
+}
+```
+
+---
+
+## Error Tracking Endpoints
+
+### Report Error
+
+```
+POST /api/errors/report
+Content-Type: application/json
+
+{
+  "message": "Error message",
+  "stack": "Stack trace",
+  "context": {
+    "userId": "user-id",
+    "page": "/dashboard",
+    "timestamp": "2024-01-21T12:00:00Z"
+  }
+}
+```
+
+**Response**
+```json
+{
+  "success": true,
+  "errorId": "err-123456"
+}
+```
+
+### Get Error Statistics
+
+```
+GET /api/errors/stats?days=7
+Authorization: Bearer <token>
+```
+
+**Response**
+```json
+{
+  "period": "7 days",
+  "totalErrors": 45,
+  "uniqueErrors": 12,
+  "topErrors": [
+    {
+      "message": "Network timeout",
+      "count": 15,
+      "lastOccurred": "2024-01-21T12:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## Webhook Events
+
+### Order Created
+
+```json
+{
+  "event": "order.created",
+  "data": {
+    "orderId": "order-123",
+    "customerId": "customer-456",
+    "amount": 50000,
+    "timestamp": "2024-01-21T12:00:00Z"
+  }
+}
+```
+
+### Order Status Updated
+
+```json
+{
+  "event": "order.status_updated",
+  "data": {
+    "orderId": "order-123",
+    "oldStatus": "pending",
+    "newStatus": "processing",
+    "timestamp": "2024-01-21T12:00:00Z"
+  }
+}
+```
+
+### Payment Received
+
+```json
+{
+  "event": "payment.received",
+  "data": {
+    "orderId": "order-123",
+    "amount": 50000,
+    "method": "m-pesa",
+    "timestamp": "2024-01-21T12:00:00Z"
+  }
+}
+```
+
+### Low Stock Alert
+
+```json
+{
+  "event": "inventory.low_stock",
+  "data": {
+    "itemId": "item-123",
+    "itemName": "Mathematics Textbook",
+    "currentStock": 5,
+    "threshold": 10,
+    "timestamp": "2024-01-21T12:00:00Z"
+  }
+}
+```
+
+---
+
 ## Support
 
 For API support, contact:
