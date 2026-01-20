@@ -110,7 +110,7 @@ export default function HomePage() {
                 <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                Pay securely with mobile money
+                {t('paySecurely')}
               </li>
             </ul>
           </div>
@@ -121,25 +121,25 @@ export default function HomePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-slate-50">For Vendors</h3>
+            <h3 className="text-lg font-semibold text-slate-50">{t('forVendors')}</h3>
             <ul className="mt-3 space-y-2 text-sm text-slate-300">
               <li className="flex items-start gap-2">
                 <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                Manage inventory easily
+                {t('manageInventory')}
               </li>
               <li className="flex items-start gap-2">
                 <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                Track orders in real time
+                {t('trackOrders')}
               </li>
               <li className="flex items-start gap-2">
                 <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                Reach more customers
+                {t('reachCustomers')}
               </li>
             </ul>
           </div>
@@ -150,25 +150,25 @@ export default function HomePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-slate-50">For Schools</h3>
+            <h3 className="text-lg font-semibold text-slate-50">{t('forSchools')}</h3>
             <ul className="mt-3 space-y-2 text-sm text-slate-300">
               <li className="flex items-start gap-2">
                 <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                Standardise book lists
+                {t('standardiseBookLists')}
               </li>
               <li className="flex items-start gap-2">
                 <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                Recommend trusted vendors
+                {t('recommendVendors')}
               </li>
               <li className="flex items-start gap-2">
                 <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                Reduce last-minute rush
+                {t('reduceRush')}
               </li>
             </ul>
           </div>
@@ -179,8 +179,8 @@ export default function HomePage() {
       <section className="border-y border-slate-800 bg-slate-900/30">
         <div className="mx-auto max-w-5xl px-3 py-12 md:px-4 md:py-16">
           <div className="mb-8 text-center">
-            <h2 className="text-2xl font-bold text-slate-50 md:text-3xl">How it works</h2>
-            <p className="mt-2 text-sm text-slate-400">Get started in three simple steps</p>
+            <h2 className="text-2xl font-bold text-slate-50 md:text-3xl">{t('howItWorks')}</h2>
+            <p className="mt-2 text-sm text-slate-400">{t('howItWorksDesc')}</p>
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
@@ -188,9 +188,9 @@ export default function HomePage() {
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-xl font-bold text-slate-950">
                 1
               </div>
-              <h3 className="text-lg font-semibold text-slate-50">Find a Vendor</h3>
+              <h3 className="text-lg font-semibold text-slate-50">{t('findVendor')}</h3>
               <p className="mt-2 text-sm text-slate-400">
-                Search vendors by location or browse our list to find one near your school.
+                {t('findVendorDesc')}
               </p>
             </div>
 
@@ -198,9 +198,9 @@ export default function HomePage() {
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-xl font-bold text-slate-950">
                 2
               </div>
-              <h3 className="text-lg font-semibold text-slate-50">Place Your Order</h3>
+              <h3 className="text-lg font-semibold text-slate-50">{t('placeOrder')}</h3>
               <p className="mt-2 text-sm text-slate-400">
-                Add textbooks, uniforms, and stationery to your cart with student details.
+                {t('placeOrderDesc')}
               </p>
             </div>
 
@@ -208,9 +208,9 @@ export default function HomePage() {
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 text-xl font-bold text-slate-950">
                 3
               </div>
-              <h3 className="text-lg font-semibold text-slate-50">Pay & Collect</h3>
+              <h3 className="text-lg font-semibold text-slate-50">{t('payCollect')}</h3>
               <p className="mt-2 text-sm text-slate-400">
-                Pay securely with mobile money via ClickPesa and collect from the vendor.
+                {t('payCollectDesc')}
               </p>
             </div>
           </div>
@@ -220,7 +220,7 @@ export default function HomePage() {
               href="/vendors"
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-sky-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-sky-500/25 transition-all hover:bg-sky-400"
             >
-              Get Started
+              {t('getStarted')}
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -233,24 +233,23 @@ export default function HomePage() {
       <section className="mx-auto max-w-5xl px-3 py-12 md:px-4 md:py-16">
         <div className="rounded-2xl border border-slate-800 bg-gradient-to-br from-sky-950/50 to-slate-900/50 p-8 text-center md:p-12">
           <h2 className="text-2xl font-bold text-slate-50 md:text-3xl">
-            Ready to simplify school shopping?
+            {t('readyToSimplify')}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-slate-300 md:text-base">
-            Join thousands of parents and vendors across Tanzania using Shuleyetu 
-            to make school supply shopping easier.
+            {t('ctaDescription')}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link
               href="/vendors"
               className="inline-flex items-center justify-center rounded-lg bg-sky-500 px-6 py-2.5 text-sm font-semibold text-slate-950 transition-all hover:bg-sky-400"
             >
-              Browse Vendors
+              {t('browseVendors')}
             </Link>
             <Link
               href="/auth/login"
               className="inline-flex items-center justify-center rounded-lg border border-slate-600 px-6 py-2.5 text-sm font-semibold text-slate-100 transition-all hover:border-sky-500"
             >
-              Vendor Sign Up
+              {t('vendorSignUp')}
             </Link>
           </div>
         </div>
