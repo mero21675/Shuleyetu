@@ -10,6 +10,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@sentry/nextjs": "^10.35.0",
     "@supabase/supabase-js": "^2.49.1",
     "@upstash/redis": "^1.36.1",
     "clsx": "^2.1.1",
