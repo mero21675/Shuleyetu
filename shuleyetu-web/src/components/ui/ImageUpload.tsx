@@ -95,6 +95,7 @@ export function ImageUpload({
       <div className="relative">
         {preview ? (
           <div className="relative aspect-square w-full max-w-[200px] overflow-hidden rounded-lg border border-slate-700 bg-slate-900">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={preview}
               alt="Preview"

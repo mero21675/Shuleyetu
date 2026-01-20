@@ -44,3 +44,5 @@ Thumbs.db
 # Build artifacts
 .turbo/
 dist/
+.vercel
+.env*.local
