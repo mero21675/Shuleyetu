@@ -2,9 +2,11 @@
 
 Deploy Shuleyetu to production for FREE using these platforms.
 
+**✅ Already Deployed on Vercel**: https://shuleyetu-web.vercel.app
+
 ---
 
-## Option 1: Vercel (Recommended for Next.js)
+## Option 1: Vercel (Recommended for Next.js) - ✅ DEPLOYED
 
 ### Free Tier Includes
 - Unlimited deployments

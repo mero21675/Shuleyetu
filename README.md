@@ -2,7 +2,30 @@
 
 Tanzanian school supply marketplace that connects parents, schools, and stationery vendors for textbooks, uniforms, and school materials.
 
+**🚀 Live in Production**: https://shuleyetu-web.vercel.app
+
 This repository currently contains a web app (`shuleyetu-web`) plus a Supabase SQL migration defining the core marketplace schema.
+
+---
+
+## Quick Start
+
+- **Production URL**: https://shuleyetu-web.vercel.app
+- **Test Customer**: customer@test.com / TestPassword123!
+- **Test Vendor**: vendor@test.com / TestPassword123!
+- **Test Admin**: admin@test.com / TestPassword123!
+- **Language**: Switch between English (EN) and Swahili (SW) using the toggle button
+
+---
+
+## Deployment
+
+- **Platform**: Vercel (Free Tier)
+- **Production URL**: https://shuleyetu-web.vercel.app
+- **Database**: Supabase (PostgreSQL)
+- **Status**: ✅ Live and Production Ready
+- **Build Status**: ✅ Passing
+- **CI/CD**: GitHub Actions (automated testing and deployment)
 
 ---
 
@@ -13,8 +36,10 @@ This repository currently contains a web app (`shuleyetu-web`) plus a Supabase S
 - **Backend / DB**: Supabase (PostgreSQL, SQL migrations, Row Level Security)
 - **Auth & APIs**: Supabase client (`@supabase/supabase-js`), JWT-based authentication
 - **Payments**: ClickPesa (sandbox integration with USSD push, webhook signature verification)
-- **Testing**: Vitest for unit tests, Jest for integration tests
-- **Security**: HTTP security headers, CSRF protection, secure token-based public order access
+- **Testing**: Vitest for unit tests, Jest for integration tests, Playwright for E2E tests
+- **Security**: HTTP security headers, CSRF protection, secure token-based public order access, Rate limiting
+- **Error Tracking**: Sentry for error monitoring and performance tracking
+- **Monitoring**: Health check endpoint, status page, uptime monitoring
 
 ---
 
@@ -379,9 +404,38 @@ npm run test
 
 ---
 
+## Production Documentation
+
+- **[TEST_ACCOUNTS.md](./TEST_ACCOUNTS.md)** - Test credentials and testing guide
+- **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Production deployment procedures
+- **[MONITORING_SETUP.md](./MONITORING_SETUP.md)** - Error tracking and monitoring configuration
+- **[LOAD_TESTING_GUIDE.md](./LOAD_TESTING_GUIDE.md)** - Performance testing procedures
+- **[SECURITY_AUDIT_CHECKLIST.md](./SECURITY_AUDIT_CHECKLIST.md)** - Security verification checklist
+- **[FINAL_VALIDATION_CHECKLIST.md](./FINAL_VALIDATION_CHECKLIST.md)** - Production launch checklist
+- **[FREE_DEPLOYMENT_GUIDE.md](./FREE_DEPLOYMENT_GUIDE.md)** - Free hosting options (Vercel, Netlify, Railway, Render)
+
+---
+
+## Production Features ✅
+
+- ✅ **Rate Limiting**: Per-IP and per-user rate limiting on all API endpoints
+- ✅ **Error Tracking**: Sentry integration for comprehensive error monitoring
+- ✅ **Health Check**: `/api/health` endpoint with real-time status page
+- ✅ **E2E Testing**: Playwright test suite for critical user flows
+- ✅ **CI/CD Pipeline**: GitHub Actions for automated testing and deployment
+- ✅ **CSRF Protection**: Middleware for cross-site request forgery prevention
+- ✅ **Database Optimization**: 13 indexes for query performance
+- ✅ **Privacy & Legal**: Privacy Policy and Terms of Service pages
+- ✅ **Multi-Language**: English and Swahili support with language switcher
+- ✅ **Dark Mode**: Dark/light theme toggle with localStorage persistence
+- ✅ **Mobile Responsive**: Fully responsive design for all devices
+- ✅ **PWA Support**: Web app manifest and installable experience
+
+---
+
 ## Contribution ideas
 
-- Add end-to-end tests with Playwright for critical user flows
+- Add end-to-end tests with Playwright for critical user flows ✅ Done
 - ~~Improve the UI/UX for parents on mobile devices~~ ✅ Done
 - Add SMS/WhatsApp notifications for order updates (Africa's Talking API)
 - ~~Implement vendor analytics dashboard (sales reports, popular items)~~ ✅ Done

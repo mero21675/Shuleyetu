@@ -1,5 +1,23 @@
 # Shuleyetu Deployment Guide
 
+**✅ Production URL**: https://shuleyetu-web.vercel.app
+
+**Status**: Live and Production Ready on Vercel (Free Tier)
+
+---
+
+## Production Deployment Status
+
+- **Platform**: Vercel
+- **URL**: https://shuleyetu-web.vercel.app
+- **Status**: ✅ Live
+- **Build**: ✅ Passing
+- **Database**: Supabase (PostgreSQL)
+- **CI/CD**: GitHub Actions
+- **Deployment**: Automatic on push to main branch
+
+---
+
 ## Prerequisites
 
 - Node.js 18+ and npm

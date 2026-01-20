@@ -1,5 +1,11 @@
 # Monitoring Setup Guide
 
+Comprehensive guide for setting up monitoring and alerting for Shuleyetu in production.
+
+**✅ Production URL**: https://shuleyetu-web.vercel.app
+
+---
+
 ## Overview
 
 This guide covers setting up monitoring for Shuleyetu using industry-standard tools for error tracking, performance monitoring, and uptime tracking.
