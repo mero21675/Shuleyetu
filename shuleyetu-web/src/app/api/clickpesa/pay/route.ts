@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { supabaseServerClient } from "@/lib/supabaseServer";
 import { jsonError, jsonOk, readJsonBody } from "@/lib/apiUtils";
 import { log, logError } from "@/lib/logger";
+import { withRateLimit, rateLimitConfigs } from "@/middleware/rateLimit";
 
 const CLICKPESA_BASE_URL = process.env.CLICKPESA_BASE_URL ?? "https://api.clickpesa.com";
 const CLICKPESA_CLIENT_ID = process.env.CLICKPESA_CLIENT_ID;
@@ -47,6 +48,10 @@ async function generateClickpesaToken(): Promise<string> {
 
 export async function POST(request: NextRequest) {
   try {
+    // Apply rate limiting for payment endpoint
+    const rateLimitError = await withRateLimit(request, rateLimitConfigs.payment);
+    if (rateLimitError) return rateLimitError;
+
     const body = await readJsonBody<{ orderId?: string; token?: string }>(request);
 
     const orderId = body?.orderId?.trim() ?? "";
