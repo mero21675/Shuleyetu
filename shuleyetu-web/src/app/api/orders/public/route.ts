@@ -3,11 +3,16 @@ import { supabaseServerClient } from "@/lib/supabaseServer";
 import { validatePublicOrderRequest } from "@/lib/publicOrderValidation";
 import { jsonError, jsonOk, readJsonBody } from "@/lib/apiUtils";
 import { logError } from "@/lib/logger";
+import { withRateLimit, rateLimitConfigs } from "@/middleware/rateLimit";
 
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   try {
+    // Apply rate limiting for public order endpoint
+    const rateLimitError = await withRateLimit(request, rateLimitConfigs.general);
+    if (rateLimitError) return rateLimitError;
+
     const body = await readJsonBody<{
       orderId?: string;
       token?: string;
