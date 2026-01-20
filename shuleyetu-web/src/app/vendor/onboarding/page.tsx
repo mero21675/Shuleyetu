@@ -21,14 +21,6 @@ interface VendorData {
   email: string;
 }
 
-const steps = [
-  { title: 'Welcome', description: 'Get started' },
-  { title: 'Business Info', description: 'Tell us about your business' },
-  { title: 'Location', description: 'Where are you located?' },
-  { title: 'Contact', description: 'How to reach you' },
-  { title: 'Review', description: 'Confirm details' },
-];
-
 export default function VendorOnboardingPage() {
   const router = useRouter();
   const { addToast } = useToast();
@@ -44,6 +36,15 @@ export default function VendorOnboardingPage() {
     phoneNumber: '',
     email: '',
   });
+
+  const stepTitles = ['Welcome', 'Business Info', 'Location', 'Contact', 'Review'];
+  const steps = stepTitles.map((title, index) => ({
+    id: `step-${index + 1}`,
+    title,
+    status: (
+      index + 1 < currentStep ? 'completed' : index + 1 === currentStep ? 'active' : 'pending'
+    ) as 'completed' | 'active' | 'pending',
+  }));
 
   const handleNext = () => {
     if (currentStep < 5) {
@@ -131,7 +132,7 @@ export default function VendorOnboardingPage() {
       </header>
 
       {/* Progress Steps */}
-      <ProgressSteps steps={steps} currentStep={currentStep} />
+      <ProgressSteps steps={steps} />
 
       {/* Form Content */}
       <section className="rounded-xl border border-slate-800 bg-slate-900/40 p-6">
@@ -143,9 +144,9 @@ export default function VendorOnboardingPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
               </div>
-              <h2 className="text-xl font-semibold text-slate-100">Let's get started</h2>
+              <h2 className="text-xl font-semibold text-slate-100">Let&apos;s get started</h2>
               <p className="mt-2 text-slate-400">
-                Shuleyetu connects school supply vendors with parents and schools across Tanzania. We'll help you reach more customers and grow your business.
+                Shuleyetu connects school supply vendors with parents and schools across Tanzania. We&apos;ll help you reach more customers and grow your business.
               </p>
             </div>
 
