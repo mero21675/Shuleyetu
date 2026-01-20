@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { supabaseClient } from "@/lib/supabaseClient";
 
+export const dynamic = 'force-dynamic';
+
 type Vendor = {
   id: string;
   name: string;
