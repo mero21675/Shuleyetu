@@ -8,6 +8,7 @@ import { MobileNav } from "@/components/ui/MobileNav";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
+import { Footer } from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -106,27 +107,8 @@ export default function RootLayout({
                 </nav>
               </header>
             <main className="flex-1">{children}</main>
-
-            {/* Footer */}
-            <footer className="border-t border-slate-800 bg-slate-950/80 py-6">
-              <div className="mx-auto max-w-5xl px-3 md:px-4">
-                <div className="flex flex-col items-center justify-between gap-4 text-xs text-slate-400 md:flex-row">
-                  <p>&copy; {new Date().getFullYear()} Shuleyetu. School supplies made easy.</p>
-                  <div className="flex items-center gap-4">
-                    <Link href="/why-shuleyetu" className="hover:text-sky-400 transition-colors">
-                      About
-                    </Link>
-                    <Link href="/vendors" className="hover:text-sky-400 transition-colors">
-                      Vendors
-                    </Link>
-                    <Link href="/orders/track" className="hover:text-sky-400 transition-colors">
-                      Track Order
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </footer>
-              <ScrollToTop />
+            <Footer />
+            <ScrollToTop />
             </div>
           </ToastProvider>
         </LanguageProvider>

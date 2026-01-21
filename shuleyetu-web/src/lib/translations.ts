@@ -57,7 +57,10 @@ export const translations = {
     vendorSignUp: 'Vendor Sign Up',
     
     // Footer
-    footerCopyright: 'Shuleyetu. School supplies made easy.',
+    footerCopyright: '© 2026 Shuleyetu. School supplies made easy.',
+    footerAbout: 'About',
+    footerVendors: 'Vendors',
+    footerTrackOrder: 'Track Order',
     about: 'About',
     trackOrder: 'Track Order',
     
@@ -158,7 +161,10 @@ export const translations = {
     vendorSignUp: 'Jisajili Muuzaji',
     
     // Footer
-    footerCopyright: 'Shuleyetu. Vifaa vya shule kwa urahisi.',
+    footerCopyright: '© 2026 Shuleyetu. Vifaa vya shule kwa urahisi.',
+    footerAbout: 'Kuhusu',
+    footerVendors: 'Wauzaji',
+    footerTrackOrder: 'Fuatilia Agizo',
     about: 'Kuhusu',
     trackOrder: 'Fuatilia Agizo',
     
