@@ -45,7 +45,9 @@ export const viewport: Viewport = {
   ],
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -59,35 +61,35 @@ export default function RootLayout({
         <LanguageProvider>
           <ToastProvider>
             <div className="flex min-h-screen flex-col">
-              <header className="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/80 text-sm backdrop-blur">
-                <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-3 py-3 md:px-4">
-                  <Link href="/" className="text-base font-semibold tracking-tight text-slate-50">
+              <header className="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/80 text-sm backdrop-blur safe-area-top">
+                <nav className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-3 py-3 md:gap-4 md:px-4 md:py-4">
+                  <Link href="/" className="text-base font-semibold tracking-tight text-slate-50 flex-shrink-0 min-h-[44px] flex items-center">
                     Shuleyetu
                   </Link>
 
                   {/* Desktop navigation */}
-                  <div className="hidden md:flex items-center gap-4 text-xs md:text-sm">
+                  <div className="hidden md:flex items-center gap-6 text-xs md:text-sm">
                     <Link
                       href="/"
-                      className="text-slate-300 hover:text-sky-400 transition-colors"
+                      className="text-slate-300 hover:text-sky-400 transition-colors min-h-[44px] flex items-center px-2"
                     >
                       Home
                     </Link>
                     <Link
                       href="/vendors"
-                      className="text-slate-300 hover:text-sky-400 transition-colors"
+                      className="text-slate-300 hover:text-sky-400 transition-colors min-h-[44px] flex items-center px-2"
                     >
                       Vendors
                     </Link>
                     <Link
                       href="/orders"
-                      className="text-slate-300 hover:text-sky-400 transition-colors"
+                      className="text-slate-300 hover:text-sky-400 transition-colors min-h-[44px] flex items-center px-2"
                     >
                       Orders
                     </Link>
                     <Link
                       href="/dashboard"
-                      className="text-slate-300 hover:text-sky-400 transition-colors"
+                      className="text-slate-300 hover:text-sky-400 transition-colors min-h-[44px] flex items-center px-2"
                     >
                       Dashboard
                     </Link>
@@ -98,7 +100,7 @@ export default function RootLayout({
                   </div>
 
                   {/* Mobile navigation */}
-                  <div className="flex items-center gap-2 md:hidden">
+                  <div className="flex items-center gap-1 md:hidden">
                     <LanguageSwitcher />
                     <ThemeToggle />
                     <NavUser />

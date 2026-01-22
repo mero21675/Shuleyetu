@@ -19,6 +19,117 @@
 body {
   margin: 0;
   transition: background-color 0.2s ease, color 0.2s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  padding-top: max(0px, env(safe-area-inset-top));
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+/* Mobile-first responsive text sizes */
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+/* Touch target optimization */
+button,
+a,
+input,
+select,
+textarea {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Safe area support for notch/dynamic island */
+.safe-area-top {
+  padding-top: max(0px, env(safe-area-inset-top));
+}
+
+.safe-area-bottom {
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+.safe-area-left {
+  padding-left: max(0px, env(safe-area-inset-left));
+}
+
+.safe-area-right {
+  padding-right: max(0px, env(safe-area-inset-right));
+}
+
+/* Improve scrolling performance */
+html {
+  scroll-behavior: smooth;
+}
+
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Optimize animations for mobile */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile form optimization */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+textarea,
+select {
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+/* Prevent zoom on input focus (iOS) */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+textarea,
+select {
+  font-size: 16px;
+}
+
+/* Mobile-friendly link styling */
+a {
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+/* Improve button touch feedback */
+button {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Mobile-friendly image handling */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Prevent horizontal scroll on mobile */
+body,
+html {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* Light theme overrides using CSS custom properties */
